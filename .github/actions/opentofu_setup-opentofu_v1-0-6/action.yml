@@ -38,7 +38,7 @@ runs:
   steps:
     - name: 🧩 Setup OpenTofu CLI ᵛ¹·⁰·⁶
       id: step_opentofu_setup-opentofu_v1-0-6
-      uses: opentofu/setup-opentofu@v1.0.6
+      uses: opentofu/setup-opentofu@v1
       with:
         cli_config_credentials_hostname: ${{ inputs.cli_config_credentials_hostname }}
         cli_config_credentials_token: ${{ inputs.cli_config_credentials_token }}

@@ -43,8 +43,9 @@ jobs:
         uses: ./.github/actions/opentofu_setup-opentofu_v1-0-6
         with:
           cli_config_credentials_hostname: null
-          cli_config_credentials_token: ${{ secrets.TOFU_CLI_CONFIG_CREDENTIALS_TOKEN }}
+          cli_config_credentials_token: null
           tofu_version: 1.0.6
+          tofu_version_file: null
           tofu_wrapper: false
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
