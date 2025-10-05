@@ -26,7 +26,7 @@ env:
 
 jobs:
   opentofu_infra_provision:
-    name: 🏗️ Tofu Cf Infra Provision
+    name: 🏗️ Cloudflare Infra Provision
     runs-on: ubuntu-22.04
     environment: ${{ github.ref }}
     defaults:
