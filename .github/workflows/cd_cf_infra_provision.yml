@@ -44,7 +44,7 @@ jobs:
         with:
           cli_config_credentials_hostname: null
           cli_config_credentials_token: null
-          tofu_version: 1.0.6
+          tofu_version: latest
           tofu_version_file: null
           tofu_wrapper: false
           github_token: ${{ secrets.GITHUB_TOKEN }}
