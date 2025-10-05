@@ -1,0 +1,59 @@
+name: '🏗️ OpenTofu - Setup Tofu'
+description: 'Sets up OpenTofu CLI in your GitHub Actions workflow.'
+
+inputs:
+  cli_config_credentials_hostname:
+    type: string
+    default: 'app.terraform.io'
+    description: 'Hostname of the Terraform Cloud/Enterprise instance for OpenTofu CLI credentials.'
+    required: false
+  cli_config_credentials_token:
+    type: string
+    default: null
+    description: 'API token for Terraform Cloud/Enterprise used in OpenTofu CLI credentials block.'
+    required: false
+  tofu_version:
+    type: string
+    default: 'latest'
+    description: 'The version of OpenTofu CLI to install.'
+    required: false
+  tofu_version_file:
+    type: string
+    default: null
+    description: 'Path to a file containing the OpenTofu version to install.'
+    required: false
+  tofu_wrapper:
+    type: boolean
+    default: true
+    description: 'Whether to install a wrapper to capture STDOUT, STDERR, and exit code as outputs.'
+    required: false
+  github_token:
+    type: string
+    default: '${{ github.token }}'
+    description: 'API token for GitHub to increase rate limits.'
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: 🧩 Setup OpenTofu CLI ᵛ¹
+      id: step_opentofu_setup-opentofu_v1
+      uses: opentofu/setup-opentofu@v1
+      with:
+        cli_config_credentials_hostname: ${{ inputs.cli_config_credentials_hostname }}
+        cli_config_credentials_token: ${{ inputs.cli_config_credentials_token }}
+        tofu_version: ${{ inputs.tofu_version }}
+        tofu_version_file: ${{ inputs.tofu_version_file }}
+        tofu_wrapper: ${{ inputs.tofu_wrapper }}
+        github_token: ${{ inputs.github_token }}
+
+outputs:
+  stdout:
+    description: 'The STDOUT stream of the call to the `tofu` binary.'
+    value: ${{ steps.step_opentofu_setup-opentofu_v1.outputs.stdout }}
+  stderr:
+    description: 'The STDERR stream of the call to the `tofu` binary.'
+    value: ${{ steps.step_opentofu_setup-opentofu_v1.outputs.stderr }}
+  exitcode:
+    description: 'The exit code of the call to the `tofu` binary.'
+    value: ${{ steps.step_opentofu_setup-opentofu_v1.outputs.exitcode }}

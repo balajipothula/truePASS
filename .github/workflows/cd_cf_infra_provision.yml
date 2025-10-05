@@ -1,0 +1,72 @@
+name: '🚀 CD • Cf • Infra Provision'
+description: 'Continuous delivery workflow to provision Cloudflare infrastructure using OpenTofu v1.0.6'
+
+on:
+  workflow_dispatch:
+    inputs:
+      launch-cf-resources:
+        type: boolean
+        default: false
+        description: 'Launch Cloudflare resources'
+        required: true
+
+env:
+  # 🌍 Logging verbosity for OpenTofu
+  TF_LOG: ERROR
+
+  # ☁️ Cloudflare credentials
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+  CLOUDFLARE_ZONE_ID: ${{ vars.CLOUDFLARE_ZONE_ID }}
+  CLOUDFLARE_EMAIL: ${{ vars.CLOUDFLARE_EMAIL }}
+
+jobs:
+  opentofu_infra_provision:
+    name: 🏗️ Tofu Cf Infra Provision
+    runs-on: ubuntu-24.04
+    environment: ${{ github.ref }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./tofu
+
+    steps:
+      - name: Step - Checkout ᵛ⁵
+        uses: actions/checkout@v5
+
+      - name: Step - Get Runner Public IP Address ᵛ¹·⁰·⁰
+        id: step_candidob_get-runner-ip_v1-0-0
+        uses: ./.github/actions/candidob_get-runner-ip_v1-0-0
+
+      - name: Step - OpenTofu v1.0.6 Setup ᵛ¹·⁰·⁶
+        id: step_opentofu_setup-opentofu_v1
+        uses: ./.github/actions/opentofu_setup-opentofu_v1
+        with:
+          cli_config_credentials_hostname: null
+          cli_config_credentials_token: ${{ secrets.TOFU_CLI_CONFIG_CREDENTIALS_TOKEN }}
+          tofu_version: 1.0.6
+          tofu_wrapper: false
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Step - OpenTofu Initialization 🔁
+        run: tofu init -input=false -reconfigure
+        env:
+          TF_WORKSPACE: default
+
+      - name: Step - OpenTofu Files Formatting 🧹
+        run: tofu fmt
+
+      - name: Step - OpenTofu Files Format Checking 🔍
+        run: tofu fmt -check
+
+      - name: Step - OpenTofu Files Validating ✅
+        run: tofu validate -no-color
+
+      - name: Step - OpenTofu Plan Generation 📄
+        if: ${{ inputs.launch-cf-resources }}
+        run: tofu plan -input=false -out=cf_infra.tfplan
+        continue-on-error: false
+
+      - name: Step - OpenTofu Plan Applying 🚧
+        if: ${{ inputs.launch-cf-resources }}
+        run: tofu apply -auto-approve -input=false cf_infra.tfplan
