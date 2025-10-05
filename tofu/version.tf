@@ -1,9 +1,9 @@
 # Declare the providers and version.
 terraform {
 
-  required_providers {
+  required_version = ">= 1.6.0"
 
-    required_version = ">= 1.0.5"
+  required_providers {
 
     cloudflare = {
       source  = "cloudflare/cloudflare"
