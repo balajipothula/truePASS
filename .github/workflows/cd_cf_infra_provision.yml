@@ -21,7 +21,7 @@ env:
   CLOUDFLARE_EMAIL: ${{ vars.CLOUDFLARE_EMAIL }}
   AWS_ACCESS_KEY_ID: ${{ vars.R2_ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_KEY }}
-  AWS_REGION: "apac"
+  AWS_REGION: "auto"
   AWS_S3_ENDPOINT: ${{ vars.R2_ENDPOINT }}
 
 jobs:
