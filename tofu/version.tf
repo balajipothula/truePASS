@@ -10,7 +10,7 @@ terraform {
 
   backend "s3" {
     bucket                      = "truepass"
-    key                         = "terraform/truepass.tfstate"
+    key                         = "/terraform/truepass.tfstate"
     region                      = "auto"
     skip_credentials_validation = true
     skip_metadata_api_check     = true
