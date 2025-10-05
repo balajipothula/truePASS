@@ -40,7 +40,7 @@ jobs:
 
       - name: Step - OpenTofu v1.0.6 Setup ᵛ¹·⁰·⁶
         id: step_opentofu_setup-opentofu_v1-0-6
-        uses: ./.github/actions/opentofu_setup-opentofu_v1-0-6
+        uses: opentofu/setup-opentofu@v1.0.6
         with:
           cli_config_credentials_hostname: null
           cli_config_credentials_token: null
