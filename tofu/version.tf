@@ -23,8 +23,8 @@ terraform {
     skip_requesting_account_id  = true
     skip_s3_checksum            = true
     use_path_style              = true
-    access_key                  = var.r2_access_key
-    secret_key                  = var.r2_secret_key
+    #access_key                  = var.r2_access_key
+    #secret_key                  = var.r2_secret_key
     endpoints = {
       s3 = var.r2_endpoint
     }
