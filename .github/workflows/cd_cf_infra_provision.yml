@@ -23,7 +23,7 @@ env:
 jobs:
   opentofu_infra_provision:
     name: 🏗️ Tofu Cf Infra Provision
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     environment: ${{ github.ref }}
     defaults:
       run:
