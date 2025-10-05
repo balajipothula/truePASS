@@ -1,4 +1,4 @@
-name: '🚀 CD • Cf • Infra Provision'
+name: '🚀 CD • Cloudflare • Infra Provision'
 description: 'Continuous delivery workflow to provision Cloudflare infrastructure using OpenTofu v1.0.6'
 
 on:
@@ -39,8 +39,8 @@ jobs:
         uses: ./.github/actions/candidob_get-runner-ip_v1-0-0
 
       - name: Step - OpenTofu v1.0.6 Setup ᵛ¹·⁰·⁶
-        id: step_opentofu_setup-opentofu_v1
-        uses: ./.github/actions/opentofu_setup-opentofu_v1
+        id: step_opentofu_setup-opentofu_v1-0-6
+        uses: ./.github/actions/opentofu_setup-opentofu_v1-0-6
         with:
           cli_config_credentials_hostname: null
           cli_config_credentials_token: ${{ secrets.TOFU_CLI_CONFIG_CREDENTIALS_TOKEN }}
@@ -64,9 +64,9 @@ jobs:
 
       - name: Step - OpenTofu Plan Generation 📄
         if: ${{ inputs.launch-cf-resources }}
-        run: tofu plan -input=false -out=cf_infra.tfplan
+        run: tofu plan -input=false -out=truepass.tfplan
         continue-on-error: false
 
       - name: Step - OpenTofu Plan Applying 🚧
         if: ${{ inputs.launch-cf-resources }}
-        run: tofu apply -auto-approve -input=false cf_infra.tfplan
+        run: tofu apply -auto-approve -input=false truepass.tfplan

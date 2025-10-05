@@ -36,9 +36,9 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: 🧩 Setup OpenTofu CLI ᵛ¹
-      id: step_opentofu_setup-opentofu_v1
-      uses: opentofu/setup-opentofu@v1
+    - name: 🧩 Setup OpenTofu CLI ᵛ¹·⁰·⁶
+      id: step_opentofu_setup-opentofu_v1-0-6
+      uses: opentofu/setup-opentofu@v1.0.6
       with:
         cli_config_credentials_hostname: ${{ inputs.cli_config_credentials_hostname }}
         cli_config_credentials_token: ${{ inputs.cli_config_credentials_token }}
@@ -50,10 +50,10 @@ runs:
 outputs:
   stdout:
     description: 'The STDOUT stream of the call to the `tofu` binary.'
-    value: ${{ steps.step_opentofu_setup-opentofu_v1.outputs.stdout }}
+    value: ${{ steps.step_opentofu_setup-opentofu_v1-0-6.outputs.stdout }}
   stderr:
     description: 'The STDERR stream of the call to the `tofu` binary.'
-    value: ${{ steps.step_opentofu_setup-opentofu_v1.outputs.stderr }}
+    value: ${{ steps.step_opentofu_setup-opentofu_v1-0-6.outputs.stderr }}
   exitcode:
     description: 'The exit code of the call to the `tofu` binary.'
-    value: ${{ steps.step_opentofu_setup-opentofu_v1.outputs.exitcode }}
+    value: ${{ steps.step_opentofu_setup-opentofu_v1-0-6.outputs.exitcode }}
