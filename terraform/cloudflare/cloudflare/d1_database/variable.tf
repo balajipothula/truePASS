@@ -15,7 +15,7 @@ variable "name" {
   description = "D1 database name."
   validation {
     condition     = can(regex("^[a-z0-9-]{1,31}$", var.name))
-    error_message = "Error: `name` must be <32 chars, lowercase, and use only letters, digits, or dashes."
+    error_message = "Error: `name` must be less than 32 chars, lowercase letters, digits, or dashes."
   }
   sensitive = false
 }

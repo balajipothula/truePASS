@@ -1,6 +1,6 @@
-# Resource  type : aws_s3_bucket
+# Resource  type : cloudflare_d1_database
 # Resource  name : generic
-# Attribute name : id
+# Attribute name : created_at
 
 output "created_at" {
   value       = cloudflare_d1_database.generic.created_at
