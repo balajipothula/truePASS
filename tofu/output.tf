@@ -1,9 +1,3 @@
-output "cloudflare_account_id" {
-  value       = data.cloudflare_account.current.id
-  description = "Account identifier tag."
-  sensitive   = false
-}
-
 output "cloudflare_account_name" {
   value       = data.cloudflare_account.current.name
   description = "Account name."
@@ -16,28 +10,8 @@ output "cloudflare_account_type" {
   sensitive   = false
 }
 
-/*
-output "aws_region_current_name" {
-  value       = data.aws_region.current.name
-  description = "The name of the selected region."
+output "cloudflare_account_dns_settings_zone_defaults_nameservers_type" {
+  value       = data.cloudflare_account_dns_settings.current.zone_defaults.nameservers.type
+  description = "Nameserver type."
   sensitive   = false
 }
-
-output "aws_caller_identity_current_account_id" {
-  value       = data.aws_caller_identity.current.account_id
-  description = "AWS Account ID number of the account that owns or contains the calling entity."
-  sensitive   = false
-}
-
-output "aws_caller_identity_current_arn" {
-  value       = data.aws_caller_identity.current.arn
-  description = "ARN associated with the calling entity."
-  sensitive   = false
-}
-
-output "aws_ecrpublic_authorization_token__info__user_name" {
-  value       = data.aws_ecrpublic_authorization_token.info.user_name
-  description = "User name decoded from the authorization token."
-  sensitive   = false
-}
-*/
