@@ -1,3 +1,4 @@
+/*
 output "cloudflare_account_name" {
   value       = data.cloudflare_account.current.name
   description = "Account name."
@@ -15,3 +16,4 @@ output "cloudflare_account_dns_settings_zone_defaults_nameservers_type" {
   description = "Nameserver type."
   sensitive   = false
 }
+*/
