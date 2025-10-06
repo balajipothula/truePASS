@@ -5,7 +5,7 @@ provider "cloudflare" {
 
 # Creation of truepass_d1_database.
 module "truepass_d1_database" {
-  source                = "./terraform/cloudflare/cloudflare/d1_database"
+  source                = "../terraform/cloudflare/cloudflare/d1_database"
 
   account_id            = var.cloudflare_account_id # 🔒 Required argument.
   name                  = "truepass_db"             # 🔒 Required argument.
