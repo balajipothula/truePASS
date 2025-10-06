@@ -5,6 +5,18 @@ variable "cloudflare_account_id" {
   sensitive   = true
 }
 
+variable "cloudflare_zone_id" {
+  type        = string
+  default     = null
+  description = "Your Cloudflare Zone ID"
+  sensitive   = true
+}
+
+variable "worker_name" {
+  type        = string
+  default     = "hello-worker"
+}
+
 variable "location" {
   type        = string
   default     = "apac"
