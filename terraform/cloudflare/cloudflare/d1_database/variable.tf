@@ -11,13 +11,13 @@ variable "account_id" {
 
 variable "name" {
   type        = string
-  default     = "cf_d1_db"
+  default     = "cf-d1-db"
   description = "D1 database name."
   validation {
-    condition    = can(regex("^[a-z][a-z0-9-]{2,63}$", var.name))
-    error_message = "Error: `name` must be 3-64 chars, start with a lowercase letter, and use only lowercase letters, digits, or hyphens."
+    condition = can(regex("^[a-z0-9-]{1,31}$", var.name)) && !contains(var.name, " ") && !contains(var.name, "_")
+    error_message = "Error: `name` must be <32 chars, lowercase, and use only letters, digits, or dashes."
   }
-  sensitive   = false
+  sensitive = false
 }
 
 variable "primary_location_hint" {
