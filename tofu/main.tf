@@ -37,7 +37,9 @@ module "analytics_worker" {
   invocation_logs                  = true
   subdomain_enabled                = true
   subdomain_previews_enabled       = true
+  /*
   tail_consumers = [
     { name = "log-consumer-worker" }
   ]
+  */
 }
