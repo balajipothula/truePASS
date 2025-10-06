@@ -28,7 +28,7 @@ module "analytics_worker" {
   source     = "../terraform/cloudflare/cloudflare/worker"
   account_id = var.cloudflare_account_id
   name       = "analytics-worker"
-  logpush    = true
+  logpush    = false
   tags       = ["metrics", "internal"]
   observability_enabled            = true
   observability_head_sampling_rate = 0.5
