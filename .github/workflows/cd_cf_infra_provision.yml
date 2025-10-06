@@ -76,6 +76,4 @@ jobs:
 
       - name: Step - OpenTofu Plan Applying 🚧
         if: ${{ inputs.launch-cf-resources }}
-        run: |
-          tofu apply -auto-approve -input=false truepass.tfplan \
-            -var="cloudflare_account_id=${{ vars.CLOUDFLARE_ACCOUNT_ID }}"
+        run: tofu apply -auto-approve -input=false truepass.tfplan
