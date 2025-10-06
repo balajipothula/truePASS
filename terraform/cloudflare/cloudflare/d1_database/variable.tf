@@ -14,7 +14,7 @@ variable "name" {
   default     = "cf-d1-db"
   description = "D1 database name."
   validation {
-    condition = can(regex("^[a-z0-9-]{1,31}$", var.name)) && !contains(var.name, " ") && !contains(var.name, "_")
+    condition     = can(regex("^[a-z0-9-]{1,31}$", var.name))
     error_message = "Error: `name` must be <32 chars, lowercase, and use only letters, digits, or dashes."
   }
   sensitive = false
