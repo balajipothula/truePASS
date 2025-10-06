@@ -1,3 +1,10 @@
+variable "cloudflare_account_id" {
+  type        = string
+  default     = null
+  description = "Account identifier tag."
+  sensitive   = true
+}
+
 variable "location" {
   type        = string
   default     = "apac"

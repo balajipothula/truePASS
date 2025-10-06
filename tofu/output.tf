@@ -1,3 +1,21 @@
+output "cloudflare_account_id" {
+  value       = data.cloudflare_account.current.id
+  description = "Account identifier tag."
+  sensitive   = false
+}
+
+output "cloudflare_account_name" {
+  value       = data.cloudflare_account.current.name
+  description = "Account name."
+  sensitive   = false
+}
+
+output "cloudflare_account_type" {
+  value       = data.cloudflare_account.current.type
+  description = "Account type."
+  sensitive   = false
+}
+
 /*
 output "aws_region_current_name" {
   value       = data.aws_region.current.name
