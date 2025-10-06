@@ -13,7 +13,7 @@ module "truepass_d1_database" {
   primary_location_hint = "apac"                    # ✅ Optional argument — recommended to keep.
 }
 */
-
+/*
 # Creation of truepass_worker resource.
 module "truepass_worker" {
   source                = "../terraform/cloudflare/cloudflare/worker"
@@ -21,4 +21,23 @@ module "truepass_worker" {
   account_id = var.cloudflare_account_id # 🔒 Required argument.
   name       = "truepass-worker"         # 🔒 Required argument.
   logpush    = false                     # ✅ Optional argument — recommended to keep.
+}
+*/
+
+module "analytics_worker" {
+  source     = "../terraform/cloudflare/cloudflare/worker"
+  account_id = var.cloudflare_account_id
+  name       = "analytics-worker"
+  logpush    = true
+  tags       = ["metrics", "internal"]
+  observability_enabled            = true
+  observability_head_sampling_rate = 0.5
+  logs_enabled                     = true
+  logs_head_sampling_rate          = 0.5
+  invocation_logs                  = true
+  subdomain_enabled                = true
+  subdomain_previews_enabled       = true
+  tail_consumers = [
+    { name = "log-consumer-worker" }
+  ]
 }
