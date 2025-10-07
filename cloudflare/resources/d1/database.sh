@@ -20,16 +20,45 @@ curl \
   }' \
 | jq
 
-# List D1 databases for a Cloudflare account using Cloudflare API
+# Delete a D1 database for a Cloudflare account using Cloudflare API
 curl \
   --silent \
   --location \
-  --request GET \
-  --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" \
+  --request DELETE \
+  --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$DATABASE_ID" \
   --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
-| jq -r '.result[] | select(.name == "truepass-db") | .uuid'
+| jq
 
+# Update a D1 database for a Cloudflare account using Cloudflare API
+curl \
+  --silent \
+  --location \
+  --request PATCH \
+  --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$DATABASE_ID" \
+  --header 'Content-Type: application/json' \
+  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --data '{
+    "read_replication": {
+      "mode": "disabled"
+    }
+  }' \
+| jq
+
+# Initialize an export for a D1 database using Cloudflare API
+curl \
+  --silent \
+  --location \
+  --request POST \
+  --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$DATABASE_ID/export" \
+  --header 'Content-Type: application/json' \
+  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --data '{
+    "output_format": "polling",
+    "no_data": true,
+    "tables": ["users"]
+  }' \
+| jq
 
 # Get details of a specific D1 database for a Cloudflare account using Cloudflare API
 curl \
@@ -58,9 +87,9 @@ curl \
 curl \
   --location \
   --request PUT \
-  --upload-file ./7473503b-6bd4-4ec9-8e67-e1585303a23b.3510b07d8a69fb40.sql \
+  --upload-file ./hashcode.sql \
   --dump-header - \
-  "https://1ad59b064bfa3690063414a9906129e4.r2.cloudflarestorage.com/d1-sqlio-incoming-prod/7473503b-6bd4-4ec9-8e67-e1585303a23b.3510b07d8a69fb40.sql?X-Amz-Expires=3600&X-Amz-Date=20251007T105420Z&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=f591b8dcd0794c54409cf0613171d42b%2F20251007%2Fauto%2Fs3%2Faws4_request&X-Amz-SignedHeaders=host&X-Amz-Signature=2c703fdd181d566b40e3dd1452ca17dfdfe5d8380e3ff7d6cf69815f9bc34a0d"
+  "upload-url-from-init-response"
 
 # Complete the import for a D1 database using Cloudflare API
 curl \
@@ -72,17 +101,79 @@ curl \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data '{
     "action": "ingest",
-    "etag": "987503e0943a74071b527740b9d2499f",
-    "filename": "7473503b-6bd4-4ec9-8e67-e1585303a23b.3510b07d8a69fb40.sql"
+    "etag": "etag-from-upload-response",
+    "filename": "hashcode.sql"
   }' \
 | jq
 
-# Delete a D1 database for a Cloudflare account using Cloudflare API
+# List D1 databases for a Cloudflare account using Cloudflare API
 curl \
   --silent \
   --location \
-  --request DELETE \
-  --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$DATABASE_ID" \
+  --request GET \
+  --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" \
   --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+| jq -r '.result[] | select(.name == "truepass-db") | .uuid'
+
+# Execute a query on a D1 database using Cloudflare API
+curl \
+  --silent \
+  --location \
+  --request POST \
+  --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$DATABASE_ID/query" \
+  --header 'Content-Type: application/json' \
+  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --data '{
+    "sql": "SELECT * FROM users WHERE id = ?;",
+    "params": [1]
+  }' \
+| jq
+
+# Insert a new record into the users table in a D1 database using Cloudflare API
+curl \
+  --silent \
+  --location \
+  --request POST \
+  --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$DATABASE_ID/query" \
+  --header 'Content-Type: application/json' \
+  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --data '{
+    "sql": "INSERT INTO users (first_name, last_name, email) VALUES (?, ?, ?);",
+    "params": ["Sri", "Nivas", "sri.nivas@gmail.com"]
+  }' \
+| jq
+
+# Execute a raw SQL command on a D1 database using Cloudflare API
+# Returns the query result rows as arrays rather than objects.
+# This is a performance-optimized version of the `/query` endpoint.
+curl \
+  --silent \
+  --location \
+  --request POST \
+  --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$DATABASE_ID/raw" \
+  --header 'Content-Type: application/json' \
+  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --data '{
+    "sql": "SELECT * FROM users WHERE id = ? AND last_name = ?;",
+    "params": [2, "Ayyar"]
+  }' \
+| jq
+
+# Update the read replication settings for a D1 database using Cloudflare API
+# mode: "auto" | "disabled"
+# Set "mode" to "auto" to enable automatic read replication.
+# Set "mode" to "disabled" to disable read replication.
+curl \
+  --silent \
+  --location \
+  --request PUT \
+  --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$DATABASE_ID" \
+  --header 'Content-Type: application/json' \
+  --header  "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --data '{
+    "read_replication": {
+      "mode": "disabled"
+    }
+  }' \
 | jq
