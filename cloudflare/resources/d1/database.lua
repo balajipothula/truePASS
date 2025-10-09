@@ -1,1 +1,0 @@
-#!/bin/redbean -i
