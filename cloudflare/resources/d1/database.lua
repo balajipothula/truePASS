@@ -20,7 +20,7 @@ local status, headers, body = Fetch(url, {
   }
 })
 
-body_table = DecodeJson(body)
+local body_table, err = DecodeJson(body)
 
 print("status: " .. status)
 print("success: " .. tostring(body_table["success"]))
