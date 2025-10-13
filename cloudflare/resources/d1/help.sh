@@ -35,7 +35,7 @@ redbean -i database.lua \
   https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$DATABASE_ID
 
 # Import Sql Into Your D1 Database.
-
+# ETAG=$(md5sum student.sql | awk '{ print $1 }')
 
 
 # List D1 Databases.
