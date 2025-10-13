@@ -1,10 +1,5 @@
 #!/bin/redbean -i
 
---[[
-redbean -i database.lua \
-  https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database
-]]
-
 local url     = arg[1]
 local method  = arg[2] or "GET"
 local body    = arg[3] or nil
@@ -20,7 +15,13 @@ local status, headers, body = Fetch(url, {
   }
 })
 
+print("body: " .. tostring(body))
+
 local body_table, err = DecodeJson(body)
 
 print("status: " .. status)
 print("success: " .. tostring(body_table["success"]))
+
+for _, result in ipairs(body_table["result"] or {}) do
+  print(tostring(result["uuid"]) .. "\t" .. tostring(result["name"]))
+end
