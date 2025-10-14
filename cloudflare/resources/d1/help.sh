@@ -35,8 +35,41 @@ redbean -i database.lua \
   https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$DATABASE_ID
 
 # Import Sql Into Your D1 Database.
-# ETAG=$(md5sum student.sql | awk '{ print $1 }')
+# ETAG=$(md5sum employee.sql | awk '{ print $1 }')
+curl \
+  --silent \
+  --location \
+  --request POST \
+  --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$DATABASE_ID/import" \
+  --header 'Content-Type: application/json' \
+  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --data "{
+    \"action\": \"init\",
+    \"etag\": \"$ETAG\"
+  }" \
+| jq
 
+curl \
+  --silent \
+  --location \
+  --request PUT \
+  --url "upload url" \
+  --header 'Content-Type: application/sql' \
+  --upload-file "employee.sql"
+
+curl \
+  --silent \
+  --location \
+  --request POST \
+  --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$DATABASE_ID/import" \
+  --header 'Content-Type: application/json' \
+  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --data "{
+    \"action\": \"ingest\",
+    \"etag\": \"$ETAG\",
+    \"filename\": \"employee.sql\"
+  }" \
+| jq
 
 # List D1 Databases.
 redbean -i database.lua \
@@ -56,7 +89,7 @@ redbean -i database.lua \
   '{
     "sql": "INSERT INTO emp (name) VALUES (?);",
     "params": ["Sri Nivas"]
-  }'
+  }'  
 
 # Raw D1 Database Query.
 redbean -i database.lua \
@@ -65,6 +98,13 @@ redbean -i database.lua \
   '{
     "sql": "SELECT * FROM emp WHERE id = ?;",
     "params": [1]
+  }'
+
+redbean -i database.lua \
+  https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$DATABASE_ID/raw \
+  POST \
+  '{
+    "sql": "DROP TABLE IF EXISTS uni_student;"
   }'
 
 # Update D1 Database.
