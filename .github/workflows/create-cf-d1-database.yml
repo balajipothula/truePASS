@@ -11,20 +11,25 @@ on:
         required: true
       location:
         type: choice
-        default: apac
+        default: 'apac'
         options: [apac, eeur, enam, oc, wnam, weur]
         description: 'Cloudflare D1 Database Location'
-        required: true
+        required: false
       create-d1-database:
         type: boolean
         default: false
         description: 'Create Cloudflare D1 Database'
-        required: true
+        required: false
+      delete-d1-database:
+        type: boolean
+        default: false
+        description: 'Delete Cloudflare D1 Database'
+        required: false
 
 jobs:
   create_d1_database:
     name: 🛢 Create Cloudflare D1 Database
-    if: ${{ inputs.database-name && inputs.location && inputs.create-d1-database }}
+    if: ${{ inputs.database-name }}
     runs-on: ubuntu-22.04
     environment: ${{ github.ref }}
     defaults:
@@ -45,5 +50,9 @@ jobs:
           quiet: false
           wranglerVersion: 4.43.0
           command: |
-            d1 create ${{ inputs.database-name }} --location ${{ inputs.location }}
+            if [ "${{ inputs.create-d1-database }}" = "true" ]; then
+              d1 create ${{ inputs.database-name }} --location ${{ inputs.location }}
+            elif [ "${{ inputs.delete-d1-database }}" = "true" ]; then
+              d1 delete ${{ inputs.database-name }} --skip-confirmation
+            fi
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
