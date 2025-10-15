@@ -1,29 +1,29 @@
-name: '🛢 Create • Cf • D1 • Database'
-description: 'Creating Cloudflare D1 Database resource using Wrangler Action v3.14.1'
+name: "🛢 Create • Cf • D1 • Database"
+description: "Creating Cloudflare D1 Database resource using Wrangler Action v3.14.1"
 
 on:
   workflow_dispatch:
     inputs:
       database-name:
         type: string
-        default: 'truepass_db'
-        description: 'Cloudflare D1 Database Name'
+        default: "truepass_db"
+        description: "Cloudflare D1 Database Name"
         required: true
       location:
         type: choice
-        default: 'apac'
+        default: "apac"
         options: [apac, eeur, enam, oc, wnam, weur]
-        description: 'Cloudflare D1 Database Location'
+        description: "Cloudflare D1 Database Location"
         required: false
       create-d1-database:
         type: boolean
         default: false
-        description: 'Create Cloudflare D1 Database'
+        description: "Create Cloudflare D1 Database"
         required: false
       delete-d1-database:
         type: boolean
         default: false
-        description: 'Delete Cloudflare D1 Database'
+        description: "Delete Cloudflare D1 Database"
         required: false
 
 jobs:
@@ -41,18 +41,21 @@ jobs:
       - name: Step - Get Runner Public IP Address ᵛ¹·⁰·⁰
         id: step_candidob_get-runner-ip_v1-0-0
         uses: ./.github/actions/candidob_get-runner-ip_v1-0-0
-      - name: Step - Deploy to Cloudflare with Wrangler ᵛ³·¹⁴·¹
-        id: cf_d1_database
+      - name: Create Cloudflare D1 Database
+        if: ${{ inputs.create-d1-database }}
         uses: cloudflare/wrangler-action@v3.14.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          quiet: false
-          wranglerVersion: 4.43.0
-          command: |
-            if [ "${{ inputs.create-d1-database }}" = "true" ]; then
-              d1 create ${{ inputs.database-name }} --location ${{ inputs.location }}
-            elif [ "${{ inputs.delete-d1-database }}" = "true" ]; then
-              d1 delete ${{ inputs.database-name }} --skip-confirmation
-            fi
+          wranglerVersion: "4.33.1"
+          command: d1 create ${{ inputs.database-name }} --location ${{ inputs.location }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+      - name: Delete Cloudflare D1 Database
+        if: ${{ inputs.delete-d1-database }}
+        uses: cloudflare/wrangler-action@v3.14.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4.33.1"
+          command: d1 delete ${{ inputs.database-name }} --skip-confirmation
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
