@@ -45,5 +45,5 @@ jobs:
           quiet: false
           wranglerVersion: 4.43.0
           command: |
-            d1 create ${{ inputs.database-name }} --location ${{ inputs.location }} --json
+            d1 create ${{ inputs.database-name }} --location ${{ inputs.location }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
