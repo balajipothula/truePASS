@@ -1,19 +1,30 @@
-name: '🚀 CI/CD • Cf • D1 • Database'
-description: 'Launching Cloudflare D1 Database resources using Wrangler Action v3.14.1'
+name: '🛢 Create • Cf • D1 • Database'
+description: 'Creating Cloudflare D1 Database resource using Wrangler Action v3.14.1'
 
 on:
   workflow_dispatch:
     inputs:
-      launch-cf-d1-database:
+      database-name:
+        type: string
+        default: 'truepass_db'
+        description: 'Cloudflare D1 Database Name'
+        required: true
+      location:
+        type: choice
+        default: apac
+        options: [apac, eeur, enam, oc, wnam, weur]
+        description: 'Cloudflare D1 Database Location'
+        required: true
+      launch-d1-database:
         type: boolean
         default: false
-        description: 'Launch Cloudflare D1 Database'
+        description: 'Create Cloudflare D1 Database'
         required: true
 
 jobs:
-  launch_cf_d1_database:
-    name: 🏗️ Launch Cloudflare D1 Database
-    if: ${{ inputs.launch-cf-d1-database }}
+  launch_d1_database:
+    name: 🛢 Create Cloudflare D1 Database
+    if: ${{ inputs.database-name && inputs.location && inputs.launch-d1-database }}
     runs-on: ubuntu-22.04
     environment: ${{ github.ref }}
     defaults:
@@ -33,5 +44,6 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           quiet: false
           wranglerVersion: 4.43.0
-          command: d1 create truepass_db --location apac
+          command: |
+            d1 create ${{ inputs.database-name }} --location ${{ inputs.location }} --json
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
