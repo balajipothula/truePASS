@@ -10,14 +10,6 @@ on:
         description: 'Launch Cloudflare D1 Database'
         required: true
 
-env:
-
-  # ☁️ Cloudflare credentials
-  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-  CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
-  CLOUDFLARE_ZONE_ID: ${{ vars.CLOUDFLARE_ZONE_ID }}
-  CLOUDFLARE_EMAIL: ${{ vars.CLOUDFLARE_EMAIL }}
-
 jobs:
   launch_cf_d1_database:
     name: 🏗️ Launch Cloudflare D1 Database
@@ -26,16 +18,12 @@ jobs:
     defaults:
       run:
         shell: bash
-        #working-directory: ./tofu
-
     steps:
       - name: Step - Checkout ᵛ⁵
         uses: actions/checkout@v5
-
       - name: Step - Get Runner Public IP Address ᵛ¹·⁰·⁰
         id: step_candidob_get-runner-ip_v1-0-0
         uses: ./.github/actions/candidob_get-runner-ip_v1-0-0
-
       - name: Step - Deploy to Cloudflare with Wrangler ᵛ³·¹⁴·¹
         id: step_cloudflare_wrangler-action_v3-14-1
         uses: cloudflare/wrangler-action@v3.14.1
@@ -44,5 +32,5 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           quiet: false
           wranglerVersion: 'latest'
-          command: d1 create truepass_db --location 'apac'
+          command: d1 create truepass_db --location apac
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
