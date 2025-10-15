@@ -13,6 +13,7 @@ on:
 jobs:
   launch_cf_d1_database:
     name: 🏗️ Launch Cloudflare D1 Database
+    if: ${{ inputs.launch-cf-d1-database }}
     runs-on: ubuntu-22.04
     environment: ${{ github.ref }}
     defaults:
@@ -25,12 +26,12 @@ jobs:
         id: step_candidob_get-runner-ip_v1-0-0
         uses: ./.github/actions/candidob_get-runner-ip_v1-0-0
       - name: Step - Deploy to Cloudflare with Wrangler ᵛ³·¹⁴·¹
-        id: step_cloudflare_wrangler-action_v3-14-1
+        id: cf_d1_database
         uses: cloudflare/wrangler-action@v3.14.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           quiet: false
-          wranglerVersion: 'latest'
+          wranglerVersion: 4.43.0
           command: d1 create truepass_db --location apac
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
