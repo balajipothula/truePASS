@@ -44,5 +44,5 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           quiet: false
           wranglerVersion: 'latest'
-          command: d1 create 
+          command: d1 create truepass_db --location 'apac'
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
