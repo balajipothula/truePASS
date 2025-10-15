@@ -15,16 +15,16 @@ on:
         options: [apac, eeur, enam, oc, wnam, weur]
         description: 'Cloudflare D1 Database Location'
         required: true
-      launch-d1-database:
+      create-d1-database:
         type: boolean
         default: false
         description: 'Create Cloudflare D1 Database'
         required: true
 
 jobs:
-  launch_d1_database:
+  create_d1_database:
     name: 🛢 Create Cloudflare D1 Database
-    if: ${{ inputs.database-name && inputs.location && inputs.launch-d1-database }}
+    if: ${{ inputs.database-name && inputs.location && inputs.create-d1-database }}
     runs-on: ubuntu-22.04
     environment: ${{ github.ref }}
     defaults:
