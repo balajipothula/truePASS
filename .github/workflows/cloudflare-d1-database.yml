@@ -1,6 +1,21 @@
 name: "🛢 Cloudflare • D1 • Database"
 description: "Creating Cloudflare D1 Database resource using Wrangler Action v3.14.1"
 
+# This workflow requires the following secrets to be configured in GitHub:
+
+# CLOUDFLARE_API_TOKEN:
+#   A scoped API token with permissions to manage D1 Database, Workers, or other Cloudflare services.
+#   Typically includes permissions like:
+#     - Account.D1:Edit
+#     - Account.D1:Read
+#     - Account.Workers:Edit (if deploying Workers)
+#   Used for authenticating API requests via curl or the Wrangler CLI.
+
+# CLOUDFLARE_ACCOUNT_ID:
+#  Your unique Cloudflare account identifier.
+#  Required to construct API endpoints like:
+#    https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/d1/...
+
 on:
   workflow_dispatch:
     inputs:
