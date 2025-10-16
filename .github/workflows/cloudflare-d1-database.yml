@@ -43,7 +43,7 @@ on:
       execute-d1-database:
         type: boolean
         default: false
-        description: "Execute SQL on D1 Database"
+        description: "Execute SQL on Cloudflare D1 Database"
         required: false
 
 jobs:
@@ -97,14 +97,17 @@ jobs:
       - name: Execute SQL on D1 Database
         if: ${{ inputs.execute-d1-database && inputs.database-name && inputs.sql-file-name }}
         uses: cloudflare/wrangler-action@v3.14.1
+        env:
+          DATABASE_NAME: ${{ inputs.database-name }}
+          SQL_FILE_NAME: ${{ inputs.sql-file-name }}
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: "."
           wranglerVersion: "4.33.1"
           command: |
-            d1 execute ${{ inputs.database-name }} \
-              --file cloudflare/resources/d1/database/user.sql \
+            d1 execute "$DATABASE_NAME" \
+              --file "cloudflare/resources/d1/database/$SQL_FILE_NAME" \
               --yes \
               --local false \
               --remote false \
