@@ -103,10 +103,11 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: "."
           wranglerVersion: "4.33.1"
           command: |
             d1 execute ${{ inputs.database-name }} \
-              --file ${{ inputs.sql-file-name }} \
+              --file cloudflare/resources/d1/database/user.sql \
               --yes \
               --local false \
               --remote false \
