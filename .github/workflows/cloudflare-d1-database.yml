@@ -109,22 +109,22 @@ jobs:
           wranglerVersion: "4.33.1"
           command: d1 delete ${{ inputs.database-name }} --skip-confirmation
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Prepare D1 command
-        id: prep
+      - name: Prepare D1 Database Execute Command
+        if: ${{ inputs.database-name && inputs.sql-file-name }}
+        id: d1_database
+        env:
+          DATABASE_NAME: ${{ inputs.database-name }}
+          SQL_FILE_NAME: ${{ inputs.sql-file-name }}
+          SQL_FILE_PATH: cloudflare/resources/d1/database/${{ inputs.sql-file-name }}
         run: |
-          echo "command=d1 execute ${{ inputs.database-name }} --file cloudflare/resources/d1/database/${{ inputs.sql-file-name }} --remote true" >> $GITHUB_OUTPUT
-
+          echo "execute_sql=d1 execute $DATABASE_NAME --file $SQL_FILE_PATH --remote true" >> $GITHUB_OUTPUT
       - name: Execute SQL on D1 Database
         if: ${{ inputs.execute-d1-database && inputs.database-name && inputs.sql-file-name }}
         uses: cloudflare/wrangler-action@v3.14.1
-        env:
-          DATABASE_NAME: ${{ inputs.database-name }}
-          SQL_FILE_NAME: cloudflare/resources/d1/database/${{ inputs.sql-file-name }}
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: "."
           wranglerVersion: "4.33.1"
-          command: ${{ steps.prep.outputs.command }}
+          command: ${{ steps.d1_database.outputs.execute_sql }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
