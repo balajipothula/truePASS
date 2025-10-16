@@ -114,18 +114,11 @@ jobs:
         uses: cloudflare/wrangler-action@v3.14.1
         env:
           DATABASE_NAME: ${{ inputs.database-name }}
-          SQL_FILE_NAME: ${{ inputs.sql-file-name }}
+          SQL_FILE_NAME: cloudflare/resources/d1/database/${{ inputs.sql-file-name }}
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: "."
           wranglerVersion: "4.33.1"
-          command: |
-            d1 execute "$DATABASE_NAME" \
-              --file "cloudflare/resources/d1/database/$SQL_FILE_NAME" \
-              --yes \
-              --local false \
-              --remote false \
-              --json false \
-              --preview flase
+          command: d1 execute "$DATABASE_NAME" --file "$SQL_FILE_NAME" --remote true
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
