@@ -58,9 +58,6 @@ jobs:
     steps:
       - name: Step - Checkout ᵛ⁵
         uses: actions/checkout@v5
-      - name: Step - Get Runner Public IP Address ᵛ¹·⁰·⁰
-        id: step_candidob_get-runner-ip_v1-0-0
-        uses: ./.github/actions/candidob_get-runner-ip_v1-0-0
       - name: Create Cloudflare D1 Database
         if: ${{ inputs.create-d1-database && inputs.database-name }}
         uses: cloudflare/wrangler-action@v3.14.1
@@ -98,7 +95,7 @@ jobs:
           command: d1 delete ${{ inputs.database-name }} --skip-confirmation
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
       - name: Execute SQL on D1 Database
-        if: ${{ inputs.execute-d1-database && inputs.sql-file-name }}
+        if: ${{ inputs.execute-d1-database && inputs.database-name && inputs.sql-file-name }}
         uses: cloudflare/wrangler-action@v3.14.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
