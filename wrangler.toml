@@ -1,3 +1,10 @@
 name = "truepass"
-compatibility_date = "2025-10-16"
 main = "src/index.js"
+compatibility_date = "2025-10-16"
+
+[vars]
+ENV = "dev"
+
+[env.dev]
+name = "dev.truepass"
+compatibility_date = "2025-10-16"
