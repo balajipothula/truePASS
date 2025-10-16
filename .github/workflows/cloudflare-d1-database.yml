@@ -6,7 +6,7 @@ on:
     inputs:
       database-name:
         type: string
-        default: "truepass_db"
+        default: "truepass-db"
         description: "Cloudflare D1 Database Name"
         required: true
       location:
