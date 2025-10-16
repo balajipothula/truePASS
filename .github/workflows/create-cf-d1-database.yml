@@ -25,9 +25,14 @@ on:
         default: false
         description: "Delete Cloudflare D1 Database"
         required: false
+      info-d1-database:
+        type: boolean
+        default: false
+        description: "Info Cloudflare D1 Database"
+        required: false
 
 jobs:
-  create_d1_database:
+  cf_d1_database:
     name: 🛢 Create Cloudflare D1 Database
     if: ${{ inputs.database-name }}
     runs-on: ubuntu-22.04
@@ -49,6 +54,15 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: "4.33.1"
           command: d1 create ${{ inputs.database-name }} --location ${{ inputs.location }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+      - name: Info Cloudflare D1 Database
+        if: ${{ inputs.info-d1-database }}
+        uses: cloudflare/wrangler-action@v3.14.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4.33.1"
+          command: d1 info ${{ inputs.database-name }} --json false
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
       - name: Delete Cloudflare D1 Database
         if: ${{ inputs.delete-d1-database }}
