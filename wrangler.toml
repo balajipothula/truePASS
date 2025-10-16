@@ -1,3 +1,3 @@
-name = "truepass-worker"
+name = "truepass"
 compatibility_date = "2025-10-16"
 main = "src/index.js"
