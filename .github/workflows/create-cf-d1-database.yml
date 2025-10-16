@@ -35,6 +35,16 @@ on:
         default: false
         description: "Delete Cloudflare D1 Database"
         required: false
+      sql-file-name:
+        type: string
+        default: "truepass.sql"
+        description: "SQL file to execute on D1 Database"
+        required: true
+      execute-d1-database:
+        type: boolean
+        default: false
+        description: "Execute SQL on D1 Database"
+        required: false
 
 jobs:
   cf_d1_database:
@@ -86,4 +96,20 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: "4.33.1"
           command: d1 delete ${{ inputs.database-name }} --skip-confirmation
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+      - name: Execute SQL on D1 Database
+        if: ${{ inputs.execute-d1-database && inputs.sql-file-name }}
+        uses: cloudflare/wrangler-action@v3.14.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4.33.1"
+          command: |
+            d1 execute ${{ inputs.database-name }} \
+              --file ${{ inputs.sql-file-name }} \
+              --yes \
+              --local false \
+              --remote false \
+              --json false \
+              --preview flase
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
