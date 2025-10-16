@@ -1,0 +1,44 @@
+name: "👷 Cloudflare • Workers"
+description: "Creating Cloudflare Workers resource using Wrangler Action v3.14.1"
+
+# This workflow requires the following secrets to be configured in GitHub:
+
+# CLOUDFLARE_API_TOKEN:
+#  A scoped API token with permissions to manage D1 Database, Workers, or other Cloudflare services.
+#  Typically includes permissions like:
+#  * Account - Workers Scripts:Edit
+#  Used for authenticating API requests via cURL or the Wrangler CLI.
+
+# CLOUDFLARE_ACCOUNT_ID:
+#  Your unique Cloudflare account identifier.
+#  Required to construct API endpoints like:
+#    https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/d1/...
+
+on:
+  workflow_dispatch:
+    inputs:
+      create-workers:
+        type: boolean
+        default: false
+        description: "Create Cloudflare Workers"
+        required: false
+
+jobs:
+  cf_workers:
+    name: 👷 Cloudflare Workers
+    runs-on: ubuntu-22.04
+    environment: ${{ github.ref }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Step - Checkout ᵛ⁵
+        uses: actions/checkout@v5
+      - name: Deploy Worker to Cloudflare.
+        uses: cloudflare/wrangler-action@v3.14.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4.33.1"
+          command: deploy
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
