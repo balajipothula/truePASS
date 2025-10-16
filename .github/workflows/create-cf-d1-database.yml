@@ -76,7 +76,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: "4.33.1"
-          command: d1 info ${{ inputs.database-name }} --json false
+          command: d1 list --json false
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
       - name: Delete Cloudflare D1 Database
         if: ${{ inputs.delete-d1-database && inputs.database-name }}
