@@ -39,7 +39,7 @@ on:
         type: string
         default: "truepass.sql"
         description: "SQL file to execute on D1 Database"
-        required: true
+        required: false
       execute-d1-database:
         type: boolean
         default: false
