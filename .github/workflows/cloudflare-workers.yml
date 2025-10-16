@@ -7,6 +7,7 @@ description: "Creating Cloudflare Workers resource using Wrangler Action v3.14.1
 #  A scoped API token with permissions to manage D1 Database, Workers, or other Cloudflare services.
 #  Typically includes permissions like:
 #  * Account - Workers Scripts:Edit
+#  * Account - Workers KV Storage:Edit
 #  Used for authenticating API requests via cURL or the Wrangler CLI.
 
 # CLOUDFLARE_ACCOUNT_ID:
@@ -20,12 +21,12 @@ on:
       worker-name:
         type: string
         default: null
-        description: "Cloudflare D1 Database Name"
+        description: "Cloudflare Worker Name"
         required: true
-      create-worker:
+      deploy-worker:
         type: boolean
         default: false
-        description: "Create Cloudflare Worker"
+        description: "Deploy Cloudflare Worker"
         required: false
       delete-worker:
         type: boolean
@@ -45,6 +46,7 @@ jobs:
       - name: Step - Checkout ᵛ⁵
         uses: actions/checkout@v5
       - name: Deploy Worker to Cloudflare
+        if: ${{ inputs.deploy-worker && inputs.worker-name }}
         uses: cloudflare/wrangler-action@v3.14.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -53,6 +55,7 @@ jobs:
           command: deploy
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
       - name: Delete Worker from Cloudflare
+        if: ${{ inputs.delete-worker && inputs.worker-name }}
         uses: cloudflare/wrangler-action@v3.14.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}

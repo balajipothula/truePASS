@@ -62,7 +62,6 @@ on:
 jobs:
   cf_d1_database:
     name: 🛢 Cloudflare D1 Database
-    if: ${{ inputs.database-name }}
     runs-on: ubuntu-22.04
     environment: ${{ github.ref }}
     defaults:
