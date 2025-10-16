@@ -37,7 +37,7 @@ on:
         required: false
       sql-file-name:
         type: string
-        default: "truepass.sql"
+        default: "create_table.sql"
         description: "SQL file to execute on D1 Database"
         required: false
       execute-d1-database:
