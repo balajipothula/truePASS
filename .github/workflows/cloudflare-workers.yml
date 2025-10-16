@@ -12,7 +12,7 @@ description: "Creating Cloudflare Workers resource using Wrangler Action v3.14.1
 # CLOUDFLARE_ACCOUNT_ID:
 #  Your unique Cloudflare account identifier.
 #  Required to construct API endpoints like:
-#    https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/d1/...
+#    https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/workers
 
 on:
   workflow_dispatch:
