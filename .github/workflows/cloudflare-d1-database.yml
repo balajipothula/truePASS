@@ -120,5 +120,5 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: "."
           wranglerVersion: "4.33.1"
-          command: d1 execute "$DATABASE_NAME" --file "$SQL_FILE_NAME" --remote true
+          command: d1 execute "$DATABASE_NAME" --file - --remote true < "$SQL_FILE_NAME"
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
