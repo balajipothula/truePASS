@@ -1,15 +1,20 @@
 curl \
   --location \
-  --request POST \
+  --request 'POST' \
   --url 'https://openrouter.ai/api/v1/chat/completions' \
   --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $OPENROUTER_API_KEY" \
-  -data '{
-    "model": "google/gemini-2.0-flash-exp:free",
+  --data '{
+    "model": "google/gemma-2-9b-it:free",
     "messages": [
       {
         "role": "user",
-        "content": "Hello world!"
+        "content": [
+          {
+            "type": "text",
+            "text": "what is redbean lua webserver?"
+          }
+        ]
       }
     ]
   }'
