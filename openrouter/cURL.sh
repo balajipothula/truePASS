@@ -1,12 +1,96 @@
-# List all providers
+# Analytics > Get user activity grouped by endpoint
 curl \
   --silent \
+  --location \
   --request 'GET' \
-  --location 'https://openrouter.ai/api/v1/models' \
-  --header "Authorization: Bearer $OPENROUTER_API_KEY" \
-| jq -r '.data[] | [.name, .id] | @tsv' | sort
+  --url 'https://openrouter.ai/api/v1/activity' \
+  --header "Authorization: Bearer $OPENROUTER_PROVISIONING_KEY" \
+| jq
 
-# List API keys
+# Credits > Get remaining credits
+curl \
+  --silent \
+  --location \
+  --request 'GET' \
+  --url 'https://openrouter.ai/api/v1/credits' \
+  --header "Authorization: Bearer $OPENROUTER_PROVISIONING_KEY" \
+| jq
+
+# Generations > Get request & usage metadata for a generation
+curl \
+  --silent \
+  --location \
+  --request 'GET' \
+  --url 'https://openrouter.ai/api/v1/generation' \
+  --header "Authorization: Bearer $OPENROUTER_PROVISIONING_KEY" \
+  --get \
+  --data-urlencode "id=gen-3bhGkxlo4XFrqiabUM7NDtwDzWwG" \
+| jq
+
+# Models > Get total count of available models
+curl \
+  --silent \
+  --location \
+  --request 'GET' \
+  --url 'https://openrouter.ai/api/v1/models/count' \
+  --header "Authorization: Bearer $OPENROUTER_PROVISIONING_KEY" \
+| jq
+
+# Models > List all models and their properties
+curl \
+  --silent \
+  --location \
+  --request 'GET' \
+  --url 'https://openrouter.ai/api/v1/models' \
+  --header "Authorization: Bearer $OPENROUTER_API_KEY" \
+| jq
+
+# Models > List models filtered by user provider preferences
+curl \
+  --silent \
+  --location \
+  --request 'GET' \
+  --url 'https://openrouter.ai/api/v1/models/user' \
+  --header "Authorization: Bearer $OPENROUTER_API_KEY" \
+| jq
+
+# Endpoints > List all endpoints for a model
+curl \
+  --silent \
+  --location \
+  --request 'GET' \
+  --url 'https://openrouter.ai/api/v1/models/deepseek/deepseek-chat-v3.1/endpoints' \
+  --header "Authorization: Bearer $OPENROUTER_API_KEY" \
+| jq
+
+# Endpoints > Preview the impact of ZDR on the available endpoints
+curl \
+  --silent \
+  --location \
+  --request 'GET' \
+  --url 'https://openrouter.ai/api/v1/endpoints/zdr' \
+  --header "Authorization: Bearer $OPENROUTER_API_KEY" \
+| jq
+
+# Parameters > Get a model's supported parameters and data about which are most popular
+curl \
+  --silent \
+  --location \
+  --request 'GET' \
+  --url 'https://openrouter.ai/api/v1/parameters/deepseek/deepseek-chat-v3.1' \
+  --header "Authorization: Bearer $OPENROUTER_API_KEY" \
+| jq
+
+# Providers > List all providers
+curl \
+  --silent \
+  --location \
+  --request 'GET' \
+  --url 'https://openrouter.ai/api/v1/models' \
+  --header "Authorization: Bearer $OPENROUTER_API_KEY" \
+| jq --raw-output '.data[] | [.name, .id] | @tsv' | sort
+
+# API Keys > List API keys
 curl \
   --silent \
   --location \
@@ -15,7 +99,7 @@ curl \
   --header "Authorization: Bearer $OPENROUTER_PROVISIONING_KEY" \
 | jq
 
-# Create a new API key
+# API Keys > Create a new API key
 curl \
   --location \
   --request 'POST' \
@@ -29,7 +113,41 @@ curl \
     "include_byok_in_limit": true
   }'
 
-# Get current API key
+# API Keys > Get a single API key
+curl \
+  --silent \
+  --location \
+  --request 'GET' \
+  --url "https://openrouter.ai/api/v1/keys/$OPENROUTER_API_KEY" \
+  --header "Authorization: Bearer $OPENROUTER_PROVISIONING_KEY" \
+| jq
+
+# API Keys > Delete an API key
+curl \
+  --silent \
+  --location \
+  --request 'DELETE' \
+  --url "https://openrouter.ai/api/v1/keys/$OPENROUTER_API_KEY" \
+  --header "Authorization: Bearer $OPENROUTER_PROVISIONING_KEY" \
+| jq
+
+# API Keys > Update an API key
+curl \
+  --silent \
+  --location \
+  --request 'PATCH' \
+  -url "https://openrouter.ai/api/v1/keys/$OPENROUTER_API_KEY" \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Bearer $OPENROUTER_PROVISIONING_KEY" \
+  --data '{
+    "name": "OPENROUTER_API_KEY2",
+    "disabled": false,
+    "limit": 2,
+    "limit_reset": "daily",
+    "include_byok_in_limit": true
+}'
+
+# API Keys > Get current API key
 curl \
   --location \
   --request 'GET' \
@@ -37,7 +155,7 @@ curl \
   --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $OPENROUTER_API_KEY"
 
-# Create a chat completion
+# Chat > Create a chat completion
 curl \
   --silent \
   --location \
@@ -59,3 +177,15 @@ curl \
     ]
   }' \
 | jq -r '.choices[0].message.content'
+
+# Completions > Create a completion
+curl \
+  --location \
+  --request 'POST' \
+  --url 'https://openrouter.ai/api/v1/completions' \
+  --header 'Content-Type: application/json' \
+  --header "Authorization: Bearer $OPENROUTER_API_KEY" \
+  --data '{
+    "model": "deepseek/deepseek-chat-v3.1:free",
+    "prompt": "Provide a single, fully functional cURL command to create a Cloudflare D1 database, including all required headers and JSON payload. Only output the cURL command."
+  }'
