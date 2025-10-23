@@ -1,0 +1,17 @@
+{
+  "model": "deepseek/deepseek-chat-v3.1:free",
+  "messages": [
+    {
+      "role": "system",
+      "content": "Your role is an expert DevOps Engineer."
+    },
+    {
+      "role": "developer",
+      "content": "Output only working cURL commands for Cloudflare resource creation. Please do not include any explanation or text."
+    },
+    {
+      "role": "user",
+      "content": "Provide a single, fully functional cURL command to create a Cloudflare D1 database, including all required headers and JSON payload. Only output the cURL command."
+    }
+  ]
+}
