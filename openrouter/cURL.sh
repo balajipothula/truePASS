@@ -195,7 +195,7 @@ curl \
       },
       {
         "role": "developer",
-         "content": "Output only working cURL commands for Cloudflare infrastructure creation. Do not include any explanation or text."
+        "content": "Output only working cURL commands for Cloudflare infrastructure creation. Do not include any explanation or text."
       },
       {
         "role": "user",
@@ -235,6 +235,55 @@ curl \
       {
         "role": "user",
         "content": "The previous cURL command returned this exact output, including the trailing marker '\<begin▁of▁sentence\>'. Make these corrections and output only the corrected cURL command:\\n\\n1. Replace ACCOUNT_ID with the shell variable $ACCOUNT_ID and API_TOKEN with $API_TOKEN (these environment variables are already configured).\\n2. Set the database name to 'truepass-db' in the JSON payload.\\n3. Remove the trailing marker '\<begin▁of▁sentence\>' or any other stray tokens.\\n5. Ensure the command is fully functional, copy-paste ready, includes all required headers, and outputs nothing but the corrected cURL command."
+      }
+    ]
+  }' \
+| jq -r '.choices[0].message.content'
+
+# Chat > Create a chat completion - *experimental
+curl \
+  --silent \
+  --location \
+  --request POST \
+  --url 'https://openrouter.ai/api/v1/chat/completions' \
+  --header 'Content-Type: application/json' \
+  --header "Authorization: Bearer $OPENROUTER_API_KEY" \
+  --data '{
+    "model": "deepseek/deepseek-chat-v3.1:free",
+    "temperature": 0.2,
+    "top_p": 0.95,
+    "frequency_penalty": 0.3,
+    "presence_penalty": 0.0,
+    "max_tokens": 2048,
+    "seed": 20251024,
+    "response_format": {
+      "type": "json_schema",
+      "json_schema": {
+        "name": "content_only",
+        "description": "Fetching choices > message > content only.",
+        "strict": true,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "content": { "type": "string" }
+          },
+          "required": ["content"],
+          "additionalProperties": false
+        }
+      }
+    },
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are an expert DevOps assistant. Output only working cURL commands for cloud infrastructure creation. Do not include any explanation or text."
+      },
+      {
+        "role": "developer",
+        "content": "Output only working cURL commands for Cloudflare infrastructure creation. Do not include any explanation or text."
+      },
+      {
+        "role": "user",
+        "content": "Provide a single, fully functional cURL command to create a Cloudflare D1 database, including all required headers and JSON payload. Only output the cURL command."
       }
     ]
   }' \

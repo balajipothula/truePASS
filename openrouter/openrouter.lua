@@ -13,6 +13,10 @@ local req_body = [[
       "content": "You are an expert DevOps assistant. Output only working cURL commands for cloud infrastructure creation. Do not include any explanation or text."
     },
     {
+      "role": "developer",
+      "content": "Output only working cURL commands for Cloudflare infrastructure creation. Do not include any explanation or text."
+    },
+    {
       "role": "user",
       "content": "Provide a single, fully functional cURL command to create a Cloudflare D1 database, including all required headers and JSON payload. Only output the cURL command."
     }
