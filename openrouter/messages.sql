@@ -1,3 +1,6 @@
+sqlite3 messages.sqlite3
+
+
 CREATE TABLE IF NOT EXISTS user (
   content TEXT NOT NULL
 );
