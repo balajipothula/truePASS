@@ -1,24 +1,10 @@
 #!/bin/redbean -i
 
-local sqlite3 = require("lsqlite3")
-local db = sqlite3.open("messages")
-
-for row in db:nrows("SELECT name FROM sqlite_master WHERE type='table'") do
-  print('in for loop')
-  print(row.name)
-end
-
-db:close()
-
 local openrouter_api_key = os.getenv("OPENROUTER_API_KEY")
-
-local user_content = arg[1]
-
-print(user_content)
 
 local url      = "https://openrouter.ai/api/v1/chat/completions"
 local method   = "POST"
-local req_body = string.format([[
+local req_body = [[
 {
   "model": "deepseek/deepseek-chat-v3.1:free",
   "messages": [
@@ -32,10 +18,25 @@ local req_body = string.format([[
     },
     {
       "role": "user",
-      "content": "%s"
+      "content": "Provide a single, fully functional cURL command to create a Cloudflare D1 database, including all required headers and JSON payload. Only output the cURL command."
     }
   ]
 }
-]], user_content)
+]]
 
-print(req_body)
+local status, headers, res_body = Fetch(url, {
+  method  = method,
+  body    = req_body,
+  headers = {
+    ["Content-Type"]  = "application/json",
+    ["Authorization"] = "Bearer " .. openrouter_api_key,
+  }
+})
+
+print("status: " .. status)
+
+local res_body_tbl, err = DecodeJson(res_body)
+
+local content = res_body_tbl.choices[1].message.content
+
+print(content)
