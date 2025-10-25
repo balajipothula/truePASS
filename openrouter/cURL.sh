@@ -234,7 +234,7 @@ curl \
       },
       {
         "role": "user",
-        "content": "The previous cURL command returned this exact output, including the trailing marker '\<begin▁of▁sentence\>'. Make these corrections and output only the corrected cURL command:\\n\\n1. Replace ACCOUNT_ID with the shell variable $ACCOUNT_ID and API_TOKEN with $API_TOKEN (these environment variables are already configured).\\n2. Set the database name to 'truepass-db' in the JSON payload.\\n3. Remove the trailing marker '\<begin▁of▁sentence\>' or any other stray tokens.\\n5. Ensure the command is fully functional, copy-paste ready, includes all required headers, and outputs nothing but the corrected cURL command."
+        "content": "The previous cURL command returned this exact output, including the trailing marker '\\<begin▁of▁sentence\\>'. Make these corrections and output only the corrected cURL command:\\n\\n1. Replace ACCOUNT_ID with the shell variable $ACCOUNT_ID and API_TOKEN with $API_TOKEN (these environment variables are already configured).\\n2. Set the database name to 'truepass-db' in the JSON payload.\\n3. Remove the trailing marker '\\<begin▁of▁sentence\\>' or any other stray tokens.\\n4. Ensure the command is fully functional, copy-paste ready, includes all required headers, and outputs nothing but the corrected cURL command."
       }
     ]
   }' \
