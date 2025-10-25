@@ -7,7 +7,8 @@ flags       = sqlite3.OPEN_READWRITE
 messages_db = sqlite3.open(filename, flags)
 
 local function insert_content(table_name, content)
-  local statement = messages_db:prepare('INSERT INTO ' .. table_name .. ' (content) VALUES (?);')
+  local sql       = 'INSERT INTO ' .. table_name .. ' (content) VALUES (?);'
+  local statement = messages_db:prepare(sql)
   assert(statement, 'Prepare insert failed for `' .. table_name .. '`')
   assert(statement:bind_values(content) == sqlite3.OK, 'Bind values failed for `' .. table_name .. '`')
   assert(statement:step() == sqlite3.DONE, 'Step failed for ' .. table_name .. '`')
@@ -16,13 +17,12 @@ end
 
 local function fetch_content(table_name)
   local content_tbl = {}
-  for row in messages_db:nrows('SELECT content FROM ' .. table_name .. ' ORDER BY rowid ASC') do
+  local sql         = 'SELECT content FROM ' .. table_name .. ' ORDER BY rowid ASC'
+  for row in messages_db:nrows(sql) do
     table.insert(content_tbl, row.content)
   end
   return content_tbl
 end
-
-local openrouter_api_key = os.getenv('OPENROUTER_API_KEY')
 
 local messages = {
   {
@@ -52,17 +52,18 @@ while user_tbl_idx <= user_tbl_size or assistant_tbl_idx <= assistant_tbl_size d
   end
 end
 
-
 local user_content = arg[1]
 
 table.insert(messages, { role = 'user', content = user_content })
+
+local url = 'https://openrouter.ai/api/v1/chat/completions'
 
 local req_body = EncodeJson({
   model    = 'deepseek/deepseek-chat-v3.1:free',
   messages = messages
 })
 
-local url = 'https://openrouter.ai/api/v1/chat/completions'
+local openrouter_api_key = os.getenv('OPENROUTER_API_KEY')
 
 local status, headers, res_body = Fetch(url, {
   method  = 'POST',
@@ -77,11 +78,24 @@ local res_body_tbl, err = DecodeJson(res_body)
 
 local assistant_content = res_body_tbl.choices[1].message.content
 
-print(assistant_content)
-
-messages_db:exec("BEGIN;")
-insert_content("user", user_content)
-insert_content("assistant", assistant_content)
-messages_db:exec("COMMIT;")
+messages_db:exec('BEGIN;')
+insert_content('user', user_content)
+insert_content('assistant', assistant_content)
+messages_db:exec('COMMIT;')
 
 messages_db:close()
+
+print()
+print('User input:')
+print('-----------')
+print(user_content)
+
+print()
+print('GenAI response:')
+print('---------------')
+print(assistant_content)
+
+print()
+print('Request body:')
+print('---------------')
+print(req_body)
