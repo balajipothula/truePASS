@@ -1,7 +1,5 @@
 #!/bin/redbean -i
 
-# cloudflare.com
-
 local url      = arg[1]
 local method   = arg[2] or "GET"
 local req_body = arg[3] or nil
