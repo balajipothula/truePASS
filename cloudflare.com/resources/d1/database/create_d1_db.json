@@ -1,17 +1,7 @@
 {
-  "metadata": {
-    "author": "Balaji Pothula",
-    "description": "Cloudflare D1 Database creation request",
-    "version": "1.0",
-    "created_at": "2025-10-30T00:00:00Z"
-  },  
   "request": {
-    "url": "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/d1/database",
+    "url": "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database",
     "method": "POST",
-    "headers": {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer ${CLOUDFLARE_API_KEY}"
-    },
     "body": {
       "name": "truepass-db",
       "primary_location_hint": "apac"
