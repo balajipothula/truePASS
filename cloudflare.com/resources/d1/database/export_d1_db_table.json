@@ -1,0 +1,11 @@
+{
+  "request": {
+    "url": "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID/export",
+    "method": "POST",
+    "body": {
+      "output_format": "polling",
+      "no_data": false,
+      "tables": []
+    }
+  }
+}

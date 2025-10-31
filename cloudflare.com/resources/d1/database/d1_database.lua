@@ -1,7 +1,7 @@
 #!/bin/redbean -i
 
-local config_file    = assert(arg[1], 'Usage is `redbean -i d1_database.lua action.json`')
-local d1_db_json     = assert(io.open(config_file, 'r'))
+local action_file    = assert(arg[1], 'Usage is `redbean -i d1_database.lua action.json`')
+local d1_db_json     = assert(io.open(action_file, 'r'))
 local d1_db_json_str = d1_db_json:read('*a')
 local d1_db_tbl      = DecodeJson(d1_db_json_str)
 

@@ -1,0 +1,9 @@
+{
+  "request": {
+    "url": "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID/query",
+    "method": "POST",
+    "body": {
+      "sql": "CREATE TABLE emp (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL);"
+    }
+  }
+}
