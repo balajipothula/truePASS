@@ -1,5 +1,19 @@
 #!/bin/redbean -i
 
+function print_tbl(tbl, indent)
+  indent = indent or 0
+  local spacing = string.rep("  ", indent)
+  if type(tbl) ~= "table" then return end
+  for k, v in pairs(tbl) do
+    if type(v) == "table" then
+      print(string.format("%s%s:", spacing, tostring(k)))
+      print_tbl(v, indent + 1)
+    else
+      print(string.format("%s%-20s: %s", spacing, tostring(k), tostring(v)))
+    end
+  end
+end
+
 local action_file    = assert(arg[1], 'Usage is `redbean -i d1_database.lua action.json`')
 local d1_db_json     = assert(io.open(action_file, 'r'))
 local d1_db_json_str = d1_db_json:read('*a')
