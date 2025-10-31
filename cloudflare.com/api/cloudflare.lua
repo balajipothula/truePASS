@@ -17,16 +17,16 @@ function print_yaml(tbl, indent)
   end
 end
 
-local action_file    = assert(arg[1], 'Usage is `redbean -i d1_database.lua action.json`')
-local d1_db_json     = assert(io.open(action_file, 'r'))
-local d1_db_json_str = d1_db_json:read('*a')
-local d1_db_tbl      = DecodeJson(d1_db_json_str)
+local action_file  = assert(arg[1], 'Usage is `redbean -i cloudflare.lua list_d1_dbs.json`')
+local api_json     = assert(io.open(action_file, 'r'))
+local api_json_str = api_json:read('*a')
+local api_tbl      = DecodeJson(api_json_str)
 
-d1_db_json:close()
+api_json:close()
 
-local url        = d1_db_tbl['request']['url']:gsub("%$([%w_]+)", os.getenv)
-local method     = d1_db_tbl['request']['method'] or 'GET'
-local req_body   = d1_db_tbl['request']['body'] and EncodeJson(d1_db_tbl['request']['body']) or nil
+local url        = api_tbl['request']['url']:gsub("%$([%w_]+)", os.getenv)
+local method     = api_tbl['request']['method'] or 'GET'
+local req_body   = api_tbl['request']['body'] and EncodeJson(api_tbl['request']['body']) or nil
 local cf_api_key = os.getenv('CLOUDFLARE_API_KEY')
 
 local status, headers, res_body = Fetch(url, {
