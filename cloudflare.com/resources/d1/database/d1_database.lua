@@ -1,15 +1,18 @@
 #!/bin/redbean -i
 
-function print_tbl(tbl, indent)
+function print_yaml(tbl, indent)
   indent = indent or 0
-  local spacing = string.rep("  ", indent)
-  if type(tbl) ~= "table" then return end
+  local space = string.rep("  ", indent)
   for k, v in pairs(tbl) do
     if type(v) == "table" then
-      print(string.format("%s%s:", spacing, tostring(k)))
-      print_tbl(v, indent + 1)
-    else
-      print(string.format("%s%-20s: %s", spacing, tostring(k), tostring(v)))
+      local show
+      for _, x in pairs(v) do if x then show = true break end end
+      if show then
+        print(space .. k .. ":")
+        print_yaml(v, indent + 1)
+      end
+    elseif v ~= nil then
+      print(string.format("%s%s: %s", space, k, v))
     end
   end
 end
@@ -37,5 +40,4 @@ local status, headers, res_body = Fetch(url, {
 
 local res_body_tbl, err = DecodeJson(res_body)
 
-print("status : " .. status)
-print("success: " .. tostring(res_body_tbl["success"]))
+print_yaml(res_body_tbl)
