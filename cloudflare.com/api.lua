@@ -17,7 +17,7 @@ function print_yaml(tbl, indent)
   end
 end
 
-local action_file  = assert(arg[1], 'Usage is `redbean -i cloudflare.lua list_d1_dbs.json`')
+local action_file  = assert(arg[1], 'Usage is `redbean -i api.lua ./d1/database/list_d1_dbs.json`')
 local api_json     = assert(io.open(action_file, 'r'))
 local api_json_str = api_json:read('*a')
 local api_tbl      = DecodeJson(api_json_str)
