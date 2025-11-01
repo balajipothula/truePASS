@@ -1,0 +1,6 @@
+{
+  "request": {
+    "url": "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/workers?page=1&per_page=9",
+    "method": "GET"
+  }
+}

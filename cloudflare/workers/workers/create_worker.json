@@ -1,0 +1,29 @@
+{
+  "request": {
+    "url": "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/workers",
+    "method": "POST",
+    "body": {
+      "name":"truepass9999",
+      "logpush":false,
+      "observability":{
+        "enabled":false,
+        "head_sampling_rate":0,
+        "logs":{
+          "enabled":false,
+          "head_sampling_rate":0,
+          "invocation_logs":false
+        }
+      },
+      "subdomain":{
+        "enabled":true,
+        "previews_enabled":true
+      },
+      "tags":[
+        "truePASS",
+        "Balaji Pothula"
+      ],
+      "tail_consumers":[
+      ]
+    }
+  }
+}

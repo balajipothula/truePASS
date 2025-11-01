@@ -1,0 +1,18 @@
+{
+  "request": {
+    "url": "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/workers/$CLOUDFLARE_WORKER_ID",
+    "method": "PATCH",
+    "body": {
+      "logpush":false,
+      "observability":{
+        "enabled":false,
+        "head_sampling_rate":25,
+        "logs":{
+          "enabled":false,
+          "head_sampling_rate":25,
+          "invocation_logs":false
+        }
+      }
+    }
+  }
+}
