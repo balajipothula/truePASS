@@ -17,7 +17,8 @@ curl \
 # "green_compute":
 #   true  → Only deploy Workers to eco-friendly regions.
 #   false → Allow Workers to run globally, without restriction.
-curl --fail --show-error --silent --location \
+curl \
+  --fail --show-error --silent --location \
   --request PUT \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/account-settings" \
   --header 'Content-Type: application/json' \
