@@ -79,16 +79,7 @@ curl \
   --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY"
 
-# Upload Worker Module
-curl \
-  --silent \
-  --location \
-  --request 'PUT' \
-  --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/truepass9" \
-  --header 'Content-Type: application/json' \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
-  --form metadata='{}'
-
+# Upload Worker Module / Upload Script Module
 curl \
   --silent \
   --location \
@@ -122,5 +113,3 @@ curl \
   --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 | jq
-
-# 
