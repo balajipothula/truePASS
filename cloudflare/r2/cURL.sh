@@ -52,4 +52,3 @@ curl \
   --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 | jq
-
