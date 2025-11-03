@@ -86,8 +86,37 @@ curl \
   --request 'PUT' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/truepass9" \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
-  --form 'metadata={"main_module":"index.js"};type=application/json' \
+  --form 'metadata={
+    "assets": {
+      "config": {
+        "not_found_handling": "404-page"
+      }
+    },
+    "bindings":[
+      {
+        "name": "truepass-db",
+        "type": "d1",
+        "id": "'"$CLOUDFLARE_DB_ID"'"
+      }
+    ],
+    "logpush": false,
+    "main_module": "index.js",
+    "tags": [
+      "truePASS",
+      "Balaji Pothula"
+    ],
+    "usage_model": "standard"
+  };type=application/json' \
   --form 'index.js=@index.js;type=application/javascript+module'
+
+curl \
+  --silent \
+  --location \
+  --request 'PUT' \
+  --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/truepass9" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --form 'metadata={"main_module":"index.js"};type=application/json' \
+  --form 'index.js=@src/index.js;type=application/javascript+module'
 
 curl \
   --silent \
@@ -113,3 +142,20 @@ curl \
   --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 | jq
+
+
+bindings: Array<Optional
+List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings.
+
+D1 = {
+id: string
+Identifier of the D1 database to bind to.
+
+name: string
+A JavaScript variable name for the binding.
+
+
+type: "d1"
+The kind of resource that the binding provides.
+
+}
