@@ -115,15 +115,6 @@ curl \
   --request 'PUT' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/truepass9" \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
-  --form 'metadata={"main_module":"index.js"};type=application/json' \
-  --form 'index.js=@src/index.js;type=application/javascript+module'
-
-curl \
-  --silent \
-  --location \
-  --request 'PUT' \
-  --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/truepass9" \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --form 'metadata={"body_part":"script.js"};type=application/json' \
   --form 'script.js=@script.js;type=application/javascript' \
 | jq
