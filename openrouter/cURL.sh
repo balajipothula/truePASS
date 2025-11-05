@@ -104,7 +104,7 @@ curl \
   --location \
   --request 'POST' \
   --url https://openrouter.ai/api/v1/keys \
-  --header "Content-Type: application/json" \
+  --header "Content-Type: application/json; charset=utf-8" \
   --header "Authorization: Bearer $OPENROUTER_PROVISIONING_KEY" \
   --data '{
     "name": "OPENROUTER_API_KEY2",
@@ -137,7 +137,7 @@ curl \
   --location \
   --request 'PATCH' \
   -url "https://openrouter.ai/api/v1/keys/$OPENROUTER_API_KEY" \
-  --header "Content-Type: application/json" \
+  --header "Content-Type: application/json; charset=utf-8" \
   --header "Authorization: Bearer $OPENROUTER_PROVISIONING_KEY" \
   --data '{
     "name": "OPENROUTER_API_KEY2",
@@ -161,7 +161,7 @@ curl \
   --location \
   --request POST \
   --url 'https://openrouter.ai/api/v1/chat/completions' \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $OPENROUTER_API_KEY" \
   --data '{
     "model": "deepseek/deepseek-chat-v3.1:free",
@@ -184,7 +184,7 @@ curl \
   --location \
   --request POST \
   --url 'https://openrouter.ai/api/v1/chat/completions' \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $OPENROUTER_API_KEY" \
   --data '{
     "model": "deepseek/deepseek-chat-v3.1:free",
@@ -211,7 +211,7 @@ curl \
   --location \
   --request POST \
   --url 'https://openrouter.ai/api/v1/chat/completions' \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $OPENROUTER_API_KEY" \
   --data '{
     "model": "deepseek/deepseek-chat-v3.1:free",
@@ -246,7 +246,7 @@ curl \
   --location \
   --request POST \
   --url 'https://openrouter.ai/api/v1/chat/completions' \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $OPENROUTER_API_KEY" \
   --data '{
     "model": "deepseek/deepseek-chat-v3.1:free",
@@ -294,7 +294,7 @@ curl \
   --location \
   --request 'POST' \
   --url 'https://openrouter.ai/api/v1/completions' \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $OPENROUTER_API_KEY" \
   --data '{
     "model": "deepseek/deepseek-chat-v3.1:free",

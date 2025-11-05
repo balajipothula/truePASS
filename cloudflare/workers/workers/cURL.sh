@@ -7,7 +7,6 @@ curl \
   --get \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/workers" \
-  --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data-urlencode "page=1" \
   --data-urlencode "per_page=9" \
@@ -18,7 +17,6 @@ curl \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/workers?page=1&per_page=9" \
-  --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 | jq
 
@@ -28,7 +26,6 @@ curl \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/workers/$CLOUDFLARE_WORKER_ID" \
-  --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 | jq
 
@@ -38,7 +35,7 @@ curl \
   --location \
   --request 'POST' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/workers" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data '{
     "name": "truepass9",
@@ -70,7 +67,7 @@ curl \
   --location \
   --request 'PUT' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/workers/$CLOUDFLARE_WORKER_ID" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data '{
     "name": "truepass99",
@@ -102,7 +99,7 @@ curl \
   --location \
   --request 'PATCH' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/workers/$CLOUDFLARE_WORKER_ID" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data '{
     "logpush": false,
@@ -124,6 +121,6 @@ curl \
   --location \
   --request 'DELETE' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/workers/$CLOUDFLARE_WORKER_ID" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 | jq

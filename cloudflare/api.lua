@@ -33,7 +33,7 @@ local status, headers, res_body = Fetch(url, {
   method  = method,
   body    = req_body,
   headers = {
-    ["Content-Type"]  = "application/json; charset=UTF-8",
+    ["Content-Type"]  = "application/json; charset=utf-8",
     ["Authorization"] = "Bearer " .. cf_api_key,
   }
 })

@@ -83,7 +83,7 @@ curl \
   --location \
   --request 'PUT' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/truepass9" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --form 'metadata={
     "assets": {
@@ -115,7 +115,7 @@ curl \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/truepass9" \
   --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
-  --form 'metadata={"body_part":"script.js"};type=application/json' \
+  --form 'metadata={"body_part":"script.js"};type=application/json; charset=utf-8' \
   --form 'script.js=@script.js;type=application/javascript' \
 | jq
 
@@ -130,6 +130,6 @@ curl \
   --location \
   --request 'DELETE' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/$CLOUDFLARE_SCRIPT_NAME" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 | jq

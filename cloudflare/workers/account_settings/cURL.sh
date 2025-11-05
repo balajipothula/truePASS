@@ -21,7 +21,7 @@ curl \
   --fail --show-error --silent --location \
   --request PUT \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/account-settings" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data '{
     "default_usage_model": "unbound",

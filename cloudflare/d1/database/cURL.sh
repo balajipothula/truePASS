@@ -53,7 +53,7 @@ curl \
   --location \
   --request PUT \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data '{
     "read_replication": {
@@ -71,7 +71,7 @@ curl \
   --location \
   --request PUT \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header  "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data '{
     "read_replication": {
@@ -86,7 +86,7 @@ curl \
   --location \
   --request PATCH \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data '{}' \
 | jq
@@ -97,7 +97,7 @@ curl \
   --location \
   --request DELETE \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 | jq
 
@@ -108,7 +108,7 @@ curl \
   --location \
   --request POST \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID/query" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data '{
     "sql": "SELECT * FROM users WHERE id = ?;",
@@ -123,7 +123,7 @@ curl \
   --location \
   --request POST \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID/query" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data '{
     "sql": "INSERT INTO users (first_name, last_name, email) VALUES (?, ?, ?);",
@@ -140,7 +140,7 @@ curl \
   --location \
   --request POST \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID/raw" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data '{
     "sql": "SELECT * FROM users WHERE id = ? AND last_name = ?;",
@@ -154,7 +154,7 @@ curl \
   --location \
   --request POST \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID/export" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data '{
     "output_format": "polling",
@@ -170,7 +170,7 @@ curl \
   --location \
   --request POST \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID/import" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data '{
     "action": "init"
@@ -193,7 +193,7 @@ curl \
   --location \
   --request POST \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID/import" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data '{
     "action": "ingest",
@@ -219,7 +219,7 @@ curl \
   --location \
   --request POST \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID/import" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data "{
     \"action\": \"init\",
@@ -240,7 +240,7 @@ curl \
   --location \
   --request POST \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID/import" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data "{
     \"action\": \"ingest\",

@@ -56,7 +56,7 @@ local function call_openrouter_api(messages_tbl)
     method  = 'POST',
     body    = req_body,
     headers = {
-      ['Content-Type']  = 'application/json',
+      ['Content-Type']  = 'application/json; charset=utf-8',
       ['Authorization'] = 'Bearer ' .. api_key,
     }
   })

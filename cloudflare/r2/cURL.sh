@@ -24,7 +24,7 @@ curl \
   --location \
   --request POST \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/r2/buckets" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data '{
     "name": "truepass"
@@ -37,7 +37,7 @@ curl \
   --location \
   --request PATCH \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/r2/buckets/$CF_BUCKET_NAME" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 | jq
 
@@ -47,6 +47,6 @@ curl \
   --location \
   --request DELETE \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/r2/buckets/$CF_BUCKET_NAME" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=utf-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 | jq
