@@ -1,3 +1,9 @@
+# Http Codes,
+# Http request and response
+# Content type, mime
+# form encoding / char encoding
+# Wireshark wrangler, cURL, redbean
+
 #!/bin/bash
 
 # List Workers / List Scripts
@@ -6,7 +12,6 @@ curl \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts" \
-  --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 | jq
 
@@ -15,7 +20,6 @@ curl \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts?tags=truepass:no" \
-  --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 | jq
 
@@ -24,7 +28,6 @@ curl \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts" \
-  --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data-urlencode "tags=truepass:no" \
 | jq
@@ -35,7 +38,6 @@ curl \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts-search" \
-  --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 | jq
 
@@ -44,7 +46,6 @@ curl \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts-search?id=$CLOUDFLARE_SCRIPT_ID,name=$CLOUDFLARE_SCRIPT_NAME,order_by=name,page=1,per_page=10" \
-  --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY"
 | jq
 
@@ -53,7 +54,6 @@ curl \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts-search" \
-  --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data-urlencode "id=$CLOUDFLARE_SCRIPT_ID" \
   --data-urlencode "name=$CLOUDFLARE_SCRIPT_NAME" \
@@ -68,7 +68,6 @@ curl \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/$CLOUDFLARE_SCRIPT_NAME" \
-  --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY"
 
 curl \
@@ -76,7 +75,6 @@ curl \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/truepass9" \
-  --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY"
 
 # Upload Worker Module / Upload Script Module
@@ -85,6 +83,7 @@ curl \
   --location \
   --request 'PUT' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/truepass9" \
+  --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --form 'metadata={
     "assets": {
@@ -114,6 +113,7 @@ curl \
   --location \
   --request 'PUT' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/truepass9" \
+  --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --form 'metadata={"body_part":"script.js"};type=application/json' \
   --form 'script.js=@script.js;type=application/javascript' \
@@ -133,20 +133,3 @@ curl \
   --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 | jq
-
-
-bindings: Array<Optional
-List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings.
-
-D1 = {
-id: string
-Identifier of the D1 database to bind to.
-
-name: string
-A JavaScript variable name for the binding.
-
-
-type: "d1"
-The kind of resource that the binding provides.
-
-}

@@ -6,7 +6,6 @@ curl \
   --location \
   --request GET \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/r2/buckets" \
-  --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 | jq
 
@@ -16,7 +15,6 @@ curl \
   --location \
   --request GET \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/r2/buckets/$CF_BUCKET_NAME" \
-  --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 | jq
 

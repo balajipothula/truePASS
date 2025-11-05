@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#   --header 'Content-Type: application/json; charset=UTF-8' \
+
 # Prerequisites:
 # - Set the CLOUDFLARE_API_KEY and CLOUDFLARE_ACCOUNT_ID environment variables
 #   CLOUDFLARE_API_KEY: Your Cloudflare API token with appropriate permissions
@@ -12,9 +14,15 @@ curl \
   --location \
   --request GET \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" \
-  --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 | jq -r '.result[] | select(.name == "truepass-db") | .uuid'
+
+nghttp \
+  --data=/dev/null \
+  --header=":method: GET" \
+  --header="authorization: Bearer $CLOUDFLARE_API_KEY" \
+  "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" \
+| jq
 
 # Get D1 Database
 curl \
@@ -22,7 +30,6 @@ curl \
   --location \
   --request GET \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID" \
-  --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 | jq
 
@@ -32,7 +39,7 @@ curl \
   --location \
   --request POST \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/json; charset=UTF-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data '{
     "name": "truepass-db",
