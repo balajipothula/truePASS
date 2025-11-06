@@ -1,6 +1,19 @@
 #!/bin/bash
 
-#   --header 'Content-Type: application/json; charset=UTF-8' \
+# Http Codes,
+# Http request and response
+# Content type, mime
+# form encoding / char encoding
+# Wireshark wrangler, cURL, redbean
+
+# HTTP headers
+# HTTP request methods
+# HTTP response status codes
+# GET    => SELECT DB Operation
+# POST   => INSERT DB Operation
+# DELETE => DELETE DB Operation
+# PUT    => UPDATE DB Operation - All    fields
+# PATCH  => UPDATE DB Operation - Single fields
 
 # Prerequisites:
 # - Set the CLOUDFLARE_API_KEY and CLOUDFLARE_ACCOUNT_ID environment variables
@@ -12,10 +25,39 @@
 curl \
   --silent \
   --location \
-  --request GET \
+  --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 | jq -r '.result[] | select(.name == "truepass-db") | .uuid'
+
+curl \
+  --silent \
+  --location \
+  --include \
+  --request 'HEAD' \
+  --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_KEY"
+
+curl \
+  --silent \
+  --output /dev/null \
+  --write-out "%{http_code}\n" \
+  --request 'HEAD' \
+  --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_KEY"
+
+curl \
+  --silent \
+  --location \
+  --head \
+  --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_KEY"
+
+curl \
+  --silent \
+  --location \
+  --request 'OPTIONS' \
+  --url 'https://postman-echo.com/get'
 
 nghttp \
   --data=/dev/null \

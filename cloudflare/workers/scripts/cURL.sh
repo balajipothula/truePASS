@@ -1,9 +1,3 @@
-# Http Codes,
-# Http request and response
-# Content type, mime
-# form encoding / char encoding
-# Wireshark wrangler, cURL, redbean
-
 #!/bin/bash
 
 # List Workers / List Scripts
