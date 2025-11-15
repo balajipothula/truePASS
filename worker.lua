@@ -36,9 +36,10 @@ local url          = "https://api.cloudflare.com/client/v4/accounts/" .. account
 local status, headers, res_body = Fetch(url, {
   method  = "PUT",
   headers = {
-    ["Authorization"]  = "Bearer " .. api_key,
-    ["Content-Type"]   = "multipart/form-data; boundary=" .. boundary,
-    ["Content-Length"] = tostring(#body),
+    ["Authorization"]    = "Bearer " .. api_key,
+    ["Content-Type"]     = "multipart/form-data; boundary=" .. boundary,
+    ["Content-Encoding"] = "br",
+    ["Content-Length"]   = tostring(#body),
   },
   body = body,
 })

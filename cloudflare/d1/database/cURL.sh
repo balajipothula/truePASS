@@ -1,19 +1,18 @@
 #!/bin/bash
 
+# Internet Protocol Version 4, Src: 13.107.213.58, Dst: 100.115.92.197
+
 # Http Codes,
 # Http request and response
 # Content type, mime
 # form encoding / char encoding
 # Wireshark wrangler, cURL, redbean
 
-# HTTP headers
-# HTTP request methods
-# HTTP response status codes
-# GET    => SELECT DB Operation
-# POST   => INSERT DB Operation
-# DELETE => DELETE DB Operation
-# PUT    => UPDATE DB Operation - All    fields
-# PATCH  => UPDATE DB Operation - Single fields
+# Anatomy of an HTTP message, Checking the Headers in the Chrome, HTTP/2 pseudo-headers,
+# MIME / Media Types, 
+# Now I understand why `ngx_http_gzip_module` required by 'NGINX'
+# HEAD Request for health checking.
+# ETag and Last-Modified useful for Web Crawlers
 
 # Prerequisites:
 # - Set the CLOUDFLARE_API_KEY and CLOUDFLARE_ACCOUNT_ID environment variables
@@ -33,6 +32,15 @@ curl \
 curl \
   --silent \
   --location \
+  --request 'GET' \
+  --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Accept-Encoding: br, gzip" --compressed \
+| jq
+
+curl \
+  --silent \
+  --location \
   --include \
   --request 'HEAD' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" \
@@ -43,13 +51,6 @@ curl \
   --output /dev/null \
   --write-out "%{http_code}\n" \
   --request 'HEAD' \
-  --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY"
-
-curl \
-  --silent \
-  --location \
-  --head \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY"
 
@@ -290,3 +291,19 @@ curl \
     \"filename\": \"employee.sql\"
   }" \
 | jq
+
+curl \
+  --silent \
+  --location \
+  --request 'GET' \
+  --url 'https://httpbin.org/cookies/set?sessionid=12345' \
+  --cookie-jar 'cookies.txt' \
+  --cookie 'cookies.txt'
+
+curl \
+  --silent \
+  --location \
+  --request 'GET' \
+  --url 'https://httpbin.org/cookies' \
+  --cookie-jar 'cookies.txt' \
+  --cookie 'cookies.txt'
