@@ -1,6 +1,8 @@
 #!/bin/redbean -i
 
-function print_yaml(tbl, indent)
+-- redbean -i truePASS/cloudflare/api.lua truePASS/cloudflare/d1/database/list_d1_dbs.json
+
+local function print_yaml(tbl, indent)
   indent = indent or 0
   local space = string.rep("  ", indent)
   for k, v in pairs(tbl) do

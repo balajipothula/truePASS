@@ -3,7 +3,7 @@
     "url": "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database",
     "method": "POST",
     "body": {
-      "name": "truepass-db",
+      "name": "truepass-db7",
       "primary_location_hint": "apac"
     }
   }

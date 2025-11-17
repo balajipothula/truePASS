@@ -3,6 +3,25 @@
 # http and ip.addr in {34.236.82.201}
 # tls and ip.addr in {104.19.192.174}
 
+mitmproxy \
+  --verbose \
+  --mode 'regular' \
+  --listen-host '127.0.0.1' \
+  --listen-port '8888' \
+  --server \
+  --rawtcp \
+  --http2
+
+mitmproxy \
+  --mode 'regular' \
+  --listen-host '127.0.0.1' \
+  --listen-port '8888' \
+  --server \
+  --allow-hosts '' \
+  --rawtcp \
+  --http2 \
+  --certs '' \
+
 # Http Codes,
 # Http request and response
 # Content type, mime
@@ -23,6 +42,7 @@
 
 # List D1 Databases
 curl \
+  --verbose \
   --silent \
   --location \
   --request 'GET' \
@@ -86,7 +106,7 @@ curl \
   --header 'Content-Type: application/json; charset=UTF-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data '{
-    "name": "truepass-db3",
+    "name": "truepass-db5",
     "primary_location_hint": "apac"
   }' \
 | jq
