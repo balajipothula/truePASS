@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Internet Protocol Version 4, Src: 13.107.213.58, Dst: 100.115.92.197
+# http and ip.addr in {34.236.82.201}
+# tls and ip.addr in {104.19.192.174}
 
 # Http Codes,
 # Http request and response
@@ -85,7 +86,7 @@ curl \
   --header 'Content-Type: application/json; charset=UTF-8' \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
   --data '{
-    "name": "truepass-db",
+    "name": "truepass-db3",
     "primary_location_hint": "apac"
   }' \
 | jq
