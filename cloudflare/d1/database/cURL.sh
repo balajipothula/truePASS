@@ -9,6 +9,9 @@
 # http and ip.addr in {34.236.82.201}
 # tls and ip.addr in {104.19.192.174}
 
+zip redbean -j ~/.mitmproxy/mitmproxy-ca-cert.pem.
+unzip -l redbean
+
 export MITMPROXY_SSLKEYLOGFILE="$HOME/mitmproxy_sslkeys.log"
 
 export https_proxy=http://127.0.0.1:8888
@@ -17,6 +20,12 @@ export no_proxy=localhost,127.0.0.1
 
 mitmproxy \
   --http2 \
+  --listen-host '127.0.0.1' \
+  --listen-port '8888' \
+  --mode 'regular' \
+  --verbose
+
+mitmweb \
   --listen-host '127.0.0.1' \
   --listen-port '8888' \
   --mode 'regular' \
