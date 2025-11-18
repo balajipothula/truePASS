@@ -1,26 +1,56 @@
 #!/bin/bash
 
+# Prerequisites:
+# - Set the CLOUDFLARE_API_KEY and CLOUDFLARE_ACCOUNT_ID environment variables
+#   CLOUDFLARE_API_KEY: Your Cloudflare API token with appropriate permissions
+#   CLOUDFLARE_ACCOUNT_ID: Your Cloudflare account ID
+# Note: jq is used to format the JSON response for better readability.
+
 # http and ip.addr in {34.236.82.201}
 # tls and ip.addr in {104.19.192.174}
 
-mitmproxy \
-  --verbose \
-  --mode 'regular' \
-  --listen-host '127.0.0.1' \
-  --listen-port '8888' \
-  --server \
-  --rawtcp \
-  --http2
+export MITMPROXY_SSLKEYLOGFILE="$HOME/mitmproxy_sslkeys.log"
+
+export https_proxy=http://127.0.0.1:8888
+
+export no_proxy=localhost,127.0.0.1
 
 mitmproxy \
-  --mode 'regular' \
+  --http2 \
   --listen-host '127.0.0.1' \
   --listen-port '8888' \
-  --server \
-  --allow-hosts '' \
-  --rawtcp \
+  --mode 'regular' \
+  --verbose
+
+mitmproxy \
   --http2 \
+  --listen-host '127.0.0.1' \
+  --listen-port '8888' \
+  --mode 'transparent' \
+  --verbose
+
+mitmproxy \
+  --allow-hosts '^httpbin\.org$' \
+  --http2 \
+  --listen-host '127.0.0.1' \
+  --listen-port '8888' \
+  --mode 'regular' \
+  --verbose
+
+mitmproxy \
+  --allow-hosts '^httpbin\.org$' \
   --certs '' \
+  --http2 \
+  --listen-host '127.0.0.1' \
+  --listen-port '8888' \
+  --mode 'regular' \
+  --verbose
+
+curl \
+  --verbose \
+  --location \
+  --request 'GET' \
+  --url 'https://httpbin.org/get'
 
 # Http Codes,
 # Http request and response
@@ -33,12 +63,6 @@ mitmproxy \
 # Now I understand why `ngx_http_gzip_module` required by 'NGINX'
 # HEAD Request for health checking.
 # ETag and Last-Modified useful for Web Crawlers
-
-# Prerequisites:
-# - Set the CLOUDFLARE_API_KEY and CLOUDFLARE_ACCOUNT_ID environment variables
-#   CLOUDFLARE_API_KEY: Your Cloudflare API token with appropriate permissions
-#   CLOUDFLARE_ACCOUNT_ID: Your Cloudflare account ID
-# Note: jq is used to format the JSON response for better readability.
 
 # List D1 Databases
 curl \
