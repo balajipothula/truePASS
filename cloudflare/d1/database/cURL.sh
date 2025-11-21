@@ -15,20 +15,32 @@ unzip -l redbean
 # Whole system wide.
 # penguin.linux.test:8888
 
+
+sudo cp mitmproxy-ca-cert.pem /usr/local/share/ca-certificates/mitmproxy.crt
+sudo update-ca-certificates
+
 HTTPS_PROXY=http://127.0.0.1:8888 redbean -i truePASS/cloudflare/test_mitmproxy.lua
+
+HTTPS_PROXY=http://172.31.11.148:8888 redbean -i test_mitmproxy.lua
 
 export MITMPROXY_SSLKEYLOGFILE="$HOME/mitmproxy_sslkeys.log"
 
 export https_proxy=http://127.0.0.1:8888
 
+export https_proxy=http://172.31.11.148:8888
+
 export no_proxy=localhost,127.0.0.1
 
-mitmproxy \
+export https_proxy=http://127.0.0.1:8888
+
+./mitmproxy \
   --http2 \
-  --listen-host '127.0.0.1' \
+  --listen-host '172.31.11.148' \
   --listen-port 8888 \
-  --mode 'transparent' \
+  --mode 'regular' \
   --save-stream-file mitmproxy.log \
+  --showhost \
+  --ssl-insecure \
   --verbose
 
 mitmproxy \
@@ -74,6 +86,16 @@ curl \
   --retry 3 \
   --retry-delay 69 \
   --proxy http://127.0.0.1:8888 \
+  --request GET \
+  --url https://httpbin.org/get
+
+curl \
+  --verbose \
+  --silent \
+  --location \
+  --retry 3 \
+  --retry-delay 69 \
+  --proxy http://172.31.11.148:8888 \
   --request GET \
   --url https://httpbin.org/get
 
