@@ -12,6 +12,11 @@
 zip redbean -j ~/.mitmproxy/mitmproxy-ca-cert.pem.
 unzip -l redbean
 
+# Whole system wide.
+# penguin.linux.test:8888
+
+HTTPS_PROXY=http://127.0.0.1:8888 redbean -i truePASS/cloudflare/test_mitmproxy.lua
+
 export MITMPROXY_SSLKEYLOGFILE="$HOME/mitmproxy_sslkeys.log"
 
 export https_proxy=http://127.0.0.1:8888
@@ -21,45 +26,56 @@ export no_proxy=localhost,127.0.0.1
 mitmproxy \
   --http2 \
   --listen-host '127.0.0.1' \
-  --listen-port '8888' \
-  --mode 'regular' \
+  --listen-port 8888 \
+  --mode 'transparent' \
+  --save-stream-file mitmproxy.log \
   --verbose
 
+mitmproxy \
+  --listen-host '0.0.0.0' \
+  --listen-port 8888 \
+  --mode 'transparent' \
+  --save-stream-file mitmproxy.log
+
 mitmweb \
-  --listen-host '127.0.0.1' \
-  --listen-port '8888' \
-  --mode 'regular' \
+  --listen-host 127.0.0.1 \
+  --listen-port 8888 \
+  --mode regular \
   --verbose
 
 mitmproxy \
   --http2 \
-  --listen-host '127.0.0.1' \
-  --listen-port '8888' \
-  --mode 'transparent' \
+  --listen-host 127.0.0.1 \
+  --listen-port 8888 \
+  --mode transparent \
   --verbose
 
 mitmproxy \
   --allow-hosts '^httpbin\.org$' \
   --http2 \
-  --listen-host '127.0.0.1' \
-  --listen-port '8888' \
-  --mode 'regular' \
+  --listen-host 127.0.0.1 \
+  --listen-port 8888 \
+  --mode regular \
   --verbose
 
 mitmproxy \
   --allow-hosts '^httpbin\.org$' \
   --certs '' \
   --http2 \
-  --listen-host '127.0.0.1' \
-  --listen-port '8888' \
-  --mode 'regular' \
+  --listen-host 127.0.0.1 \
+  --listen-port 8888 \
+  --mode regular \
   --verbose
 
 curl \
   --verbose \
+  --silent \
   --location \
-  --request 'GET' \
-  --url 'https://httpbin.org/get'
+  --retry 3 \
+  --retry-delay 69 \
+  --proxy http://127.0.0.1:8888 \
+  --request GET \
+  --url https://httpbin.org/get
 
 # Http Codes,
 # Http request and response
@@ -84,8 +100,11 @@ curl \
 | jq -r '.result[] | select(.name == "truepass-db") | .uuid'
 
 curl \
+  --verbose \
   --silent \
   --location \
+  --retry 3 \
+  --retry-delay 69 \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" \
   --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
