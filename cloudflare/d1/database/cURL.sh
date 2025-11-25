@@ -1,115 +1,10 @@
 #!/bin/bash
 
 # Prerequisites:
-# - Set the CLOUDFLARE_API_KEY and CLOUDFLARE_ACCOUNT_ID environment variables
-#   CLOUDFLARE_API_KEY: Your Cloudflare API token with appropriate permissions
+# - Set the CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID environment variables
+#   CLOUDFLARE_API_TOKEN:  Your Cloudflare API token with appropriate permissions
 #   CLOUDFLARE_ACCOUNT_ID: Your Cloudflare account ID
 # Note: jq is used to format the JSON response for better readability.
-
-# http and ip.addr in {34.236.82.201}
-# tls and ip.addr in {104.19.192.174}
-
-zip redbean -j ~/.mitmproxy/mitmproxy-ca-cert.pem.
-unzip -l redbean
-
-# Whole system wide.
-# penguin.linux.test:8888
-
-
-sudo cp mitmproxy-ca-cert.pem /usr/local/share/ca-certificates/mitmproxy.crt
-sudo update-ca-certificates
-
-HTTPS_PROXY=http://127.0.0.1:8888 redbean -i truePASS/cloudflare/test_mitmproxy.lua
-
-HTTPS_PROXY=http://172.31.11.148:8888 redbean -i test_mitmproxy.lua
-
-export MITMPROXY_SSLKEYLOGFILE="$HOME/mitmproxy_sslkeys.log"
-
-export https_proxy=http://127.0.0.1:8888
-
-export https_proxy=http://172.31.11.148:8888
-
-export no_proxy=localhost,127.0.0.1
-
-export https_proxy=http://127.0.0.1:8888
-
-./mitmproxy \
-  --http2 \
-  --listen-host '172.31.11.148' \
-  --listen-port 8888 \
-  --mode 'regular' \
-  --save-stream-file mitmproxy.log \
-  --showhost \
-  --ssl-insecure \
-  --verbose
-
-mitmproxy \
-  --listen-host '0.0.0.0' \
-  --listen-port 8888 \
-  --mode 'transparent' \
-  --save-stream-file mitmproxy.log
-
-mitmweb \
-  --listen-host 127.0.0.1 \
-  --listen-port 8888 \
-  --mode regular \
-  --verbose
-
-mitmproxy \
-  --http2 \
-  --listen-host 127.0.0.1 \
-  --listen-port 8888 \
-  --mode transparent \
-  --verbose
-
-mitmproxy \
-  --allow-hosts '^httpbin\.org$' \
-  --http2 \
-  --listen-host 127.0.0.1 \
-  --listen-port 8888 \
-  --mode regular \
-  --verbose
-
-mitmproxy \
-  --allow-hosts '^httpbin\.org$' \
-  --certs '' \
-  --http2 \
-  --listen-host 127.0.0.1 \
-  --listen-port 8888 \
-  --mode regular \
-  --verbose
-
-curl \
-  --verbose \
-  --silent \
-  --location \
-  --retry 3 \
-  --retry-delay 69 \
-  --proxy http://127.0.0.1:8888 \
-  --request GET \
-  --url https://httpbin.org/get
-
-curl \
-  --verbose \
-  --silent \
-  --location \
-  --retry 3 \
-  --retry-delay 69 \
-  --proxy http://172.31.11.148:8888 \
-  --request GET \
-  --url https://httpbin.org/get
-
-# Http Codes,
-# Http request and response
-# Content type, mime
-# form encoding / char encoding
-# Wireshark wrangler, cURL, redbean
-
-# Anatomy of an HTTP message, Checking the Headers in the Chrome, HTTP/2 pseudo-headers,
-# MIME / Media Types, 
-# Now I understand why `ngx_http_gzip_module` required by 'NGINX'
-# HEAD Request for health checking.
-# ETag and Last-Modified useful for Web Crawlers
 
 # List D1 Databases
 curl \
@@ -118,7 +13,7 @@ curl \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
 | jq -r '.result[] | select(.name == "truepass-db") | .uuid'
 
 curl \
@@ -129,7 +24,7 @@ curl \
   --retry-delay 69 \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --header "Accept-Encoding: br, gzip" --compressed \
 | jq
 
@@ -139,7 +34,7 @@ curl \
   --include \
   --request 'HEAD' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY"
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 
 curl \
   --silent \
@@ -147,7 +42,7 @@ curl \
   --write-out "%{http_code}\n" \
   --request 'HEAD' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY"
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 
 curl \
   --silent \
@@ -158,7 +53,7 @@ curl \
 nghttp \
   --data=/dev/null \
   --header=":method: GET" \
-  --header="authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header="authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" \
 | jq
 
@@ -168,7 +63,7 @@ curl \
   --location \
   --request GET \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID" \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
 | jq
 
 # Create D1 Database
@@ -178,7 +73,7 @@ curl \
   --request POST \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" \
   --header 'Content-Type: application/json; charset=UTF-8' \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --data '{
     "name": "truepass-db5",
     "primary_location_hint": "apac"
@@ -192,7 +87,7 @@ curl \
   --request PUT \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID" \
   --header 'Content-Type: application/json; charset=utf-8' \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --data '{
     "read_replication": {
       "mode": "disabled"
@@ -210,7 +105,7 @@ curl \
   --request PUT \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID" \
   --header 'Content-Type: application/json; charset=utf-8' \
-  --header  "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header  "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --data '{
     "read_replication": {
       "mode": "disabled"
@@ -225,7 +120,7 @@ curl \
   --request PATCH \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID" \
   --header 'Content-Type: application/json; charset=utf-8' \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --data '{}' \
 | jq
 
@@ -236,7 +131,7 @@ curl \
   --request DELETE \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID" \
   --header 'Content-Type: application/json; charset=utf-8' \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
 | jq
 
 # Query D1 Database
@@ -247,7 +142,7 @@ curl \
   --request POST \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID/query" \
   --header 'Content-Type: application/json; charset=utf-8' \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --data '{
     "sql": "SELECT * FROM users WHERE id = ?;",
     "params": [1]
@@ -262,7 +157,7 @@ curl \
   --request POST \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID/query" \
   --header 'Content-Type: application/json; charset=utf-8' \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --data '{
     "sql": "INSERT INTO users (first_name, last_name, email) VALUES (?, ?, ?);",
     "params": ["Sri", "Nivas", "sri.nivas@gmail.com"]
@@ -279,7 +174,7 @@ curl \
   --request POST \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID/raw" \
   --header 'Content-Type: application/json; charset=utf-8' \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --data '{
     "sql": "SELECT * FROM users WHERE id = ? AND last_name = ?;",
     "params": [2, "Ayyar"]
@@ -293,7 +188,7 @@ curl \
   --request POST \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID/export" \
   --header 'Content-Type: application/json; charset=utf-8' \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --data '{
     "output_format": "polling",
     "no_data": true,
@@ -309,7 +204,7 @@ curl \
   --request POST \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID/import" \
   --header 'Content-Type: application/json; charset=utf-8' \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --data '{
     "action": "init"
   }' \
@@ -332,7 +227,7 @@ curl \
   --request POST \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID/import" \
   --header 'Content-Type: application/json; charset=utf-8' \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --data '{
     "action": "ingest",
     "etag": "etag-from-upload-response",
@@ -358,7 +253,7 @@ curl \
   --request POST \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID/import" \
   --header 'Content-Type: application/json; charset=utf-8' \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --data "{
     \"action\": \"init\",
     \"etag\": \"$ETAG\"
@@ -379,7 +274,7 @@ curl \
   --request POST \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database/$CLOUDFLARE_DB_ID/import" \
   --header 'Content-Type: application/json; charset=utf-8' \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --data "{
     \"action\": \"ingest\",
     \"etag\": \"$ETAG\",

@@ -6,7 +6,7 @@ curl \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts" \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
 | jq
 
 curl \
@@ -14,7 +14,7 @@ curl \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts?tags=truepass:no" \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
 | jq
 
 curl \
@@ -22,7 +22,7 @@ curl \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts" \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --data-urlencode "tags=truepass:no" \
 | jq
 
@@ -32,7 +32,7 @@ curl \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts-search" \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
 | jq
 
 curl \
@@ -40,7 +40,7 @@ curl \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts-search?id=$CLOUDFLARE_SCRIPT_ID,name=$CLOUDFLARE_SCRIPT_NAME,order_by=name,page=1,per_page=10" \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY"
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 | jq
 
 curl \
@@ -48,7 +48,7 @@ curl \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts-search" \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --data-urlencode "id=$CLOUDFLARE_SCRIPT_ID" \
   --data-urlencode "name=$CLOUDFLARE_SCRIPT_NAME" \
   --data-urlencode "order_by=name" \
@@ -62,14 +62,14 @@ curl \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/$CLOUDFLARE_SCRIPT_NAME" \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY"
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 
 curl \
   --silent \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/truepass9" \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY"
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN"
 
 # Upload Worker Module / Upload Script Module
 curl \
@@ -78,7 +78,7 @@ curl \
   --request 'PUT' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/truepass9" \
   --header 'Content-Type: application/json; charset=utf-8' \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --form 'metadata={
     "assets": {
       "config": {
@@ -108,7 +108,7 @@ curl \
   --request 'PUT' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/truepass9" \
   --header 'Content-Type: application/json' \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --form 'metadata={"body_part":"script.js"};type=application/json; charset=utf-8' \
   --form 'script.js=@script.js;type=application/javascript' \
 | jq
@@ -125,5 +125,5 @@ curl \
   --request 'DELETE' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/scripts/$CLOUDFLARE_SCRIPT_NAME" \
   --header 'Content-Type: application/json; charset=utf-8' \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
 | jq

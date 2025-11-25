@@ -7,7 +7,7 @@ curl \
   --get \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/workers" \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --data-urlencode "page=1" \
   --data-urlencode "per_page=9" \
 | jq
@@ -17,7 +17,7 @@ curl \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/workers?page=1&per_page=9" \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
 | jq
 
 # Get Worker
@@ -26,7 +26,7 @@ curl \
   --location \
   --request 'GET' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/workers/$CLOUDFLARE_WORKER_ID" \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
 | jq
 
 # Create Worker
@@ -36,7 +36,7 @@ curl \
   --request 'POST' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/workers" \
   --header 'Content-Type: application/json; charset=utf-8' \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --data '{
     "name": "truepass9",
     "logpush": false,
@@ -68,7 +68,7 @@ curl \
   --request 'PUT' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/workers/$CLOUDFLARE_WORKER_ID" \
   --header 'Content-Type: application/json; charset=utf-8' \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --data '{
     "name": "truepass99",
     "logpush": false,
@@ -100,7 +100,7 @@ curl \
   --request 'PATCH' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/workers/$CLOUDFLARE_WORKER_ID" \
   --header 'Content-Type: application/json; charset=utf-8' \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
   --data '{
     "logpush": false,
     "observability": {
@@ -122,5 +122,5 @@ curl \
   --request 'DELETE' \
   --url "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/workers/$CLOUDFLARE_WORKER_ID" \
   --header 'Content-Type: application/json; charset=utf-8' \
-  --header "Authorization: Bearer $CLOUDFLARE_API_KEY" \
+  --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
 | jq
